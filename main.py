@@ -1,5 +1,5 @@
 import flet as ft
-import partials.sidebar
+from partials.sidebar import Sidebar
 
 class App:
     def __init__(self, page:ft.Page):
@@ -8,7 +8,7 @@ class App:
         self.main()
 
     def main(self):
-        self.sidebar = ft.Container()
+        self.sidebar = Sidebar()
         self.content = ft.Container()
 
         layout = ft.ResponsiveRow(
