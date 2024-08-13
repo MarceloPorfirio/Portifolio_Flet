@@ -28,7 +28,40 @@ class SidebarHeader(ft.UserControl):
     
 class SidebarContent(ft.UserControl):
     def build(self):
-        return ft.Container()
+        location = ft.Column(
+            controls=[
+                ft.Row(
+                    controls=[
+                        ft.Text(value='Residência:',theme_style=ft.TextThemeStyle.BODY_LARGE,color='white'),
+                        ft.Text(value='Brasil',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                    ],
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN
+                )
+            ]
+        )
+        languages = ft.Container()
+        skills = ft.Container()
+        technologies = ft.Container()
+        cv = ft.Container()
+        
+
+        return ft.Container(
+            bgcolor=ft.colors.BLACK12,
+            padding=ft.padding.all(20),
+            content=ft.Column(
+                controls=[
+                    location,
+                    ft.Divider(height=30),
+                    languages,
+                    ft.Divider(height=30),
+                    skills,
+                    ft.Divider(height=30),
+                    technologies,
+                    ft.Divider(height=30),
+                    cv,
+                ]
+            )
+        )
     
 class SidebarFooter(ft.UserControl):
     def build(self):
