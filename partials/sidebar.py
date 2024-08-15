@@ -1,4 +1,5 @@
 import flet as ft
+from components.skills import SkillRing
 
 class SidebarHeader(ft.UserControl):
     def build(self):
@@ -55,34 +56,25 @@ class SidebarContent(ft.UserControl):
         )
         languages = ft.Row(
             controls=[
-                ft.Column(
-                    controls=[
-                        ft.Stack(
-                            controls=[
-                                ft.PieChart(
-                                    sections=[
-                                        ft.PieChartSection(value=100,color=ft.colors.PRIMARY,radius=5),
-                                        ft.PieChartSection(value=0,color=ft.colors.BLACK26,radius=5)
-                                    ],
-                                    sections_space=0,
-                                    center_space_color=ft.colors.BLACK12,
-                                    height=70
-                                ),
-                                ft.Container(
-                                    content=ft.Text(value='100%',theme_style=ft.TextThemeStyle.BODY_LARGE,color='white'),
-                                    alignment=ft.alignment.center,
-                                    height=70,
-                                )
-                            ]
-                        ),
-                        ft.Text(value='Português',theme_style=ft.TextThemeStyle.BODY_LARGE,color='white')
-                    ],
-                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                    expand=True,
-                )
+                SkillRing(title='Português',value=1),
+                SkillRing(title='Inglês',value=0.8),
+                SkillRing(title='Espanhol',value=0.5)
             ]
         )
-        skills = ft.Container()
+        skills = ft.Column(
+            controls=[
+                ft.Row(
+                controls=[
+                    ft.Text(value='HTML',theme_style=ft.TextThemeStyle.BODY_LARGE,color='white'),
+                    ft.Text(value='100%',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white')
+                ],
+                alignment=ft.MainAxisAlignment.SPACE_BETWEEN
+            ),
+            ft.ProgressBar(value=1, color=ft.colors.PRIMARY,bgcolor=ft.colors.BLACK26),
+            ft.Divider(height=10,color=ft.colors.BLACK12)
+            ]
+            
+        )
         technologies = ft.Container()
         cv = ft.Container()
         
