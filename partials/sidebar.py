@@ -80,12 +80,37 @@ class SidebarContent(ft.UserControl):
             controls=[
                 ft.ListTile(
                     leading=ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
-                    title=ft.Text(value='Flet',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white')
-                )
-            ]
+                    title=ft.Text(value='Flet',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                ),
+                ft.ListTile(
+                    leading=ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
+                    title=ft.Text(value='Flet',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                ),
+                ft.ListTile(
+                    leading=ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
+                    title=ft.Text(value='Flet',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                ),
+                ft.ListTile(
+                    leading=ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
+                    title=ft.Text(value='Flet',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                ),
+                ft.ListTile(
+                    leading=ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
+                    title=ft.Text(value='Flet',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                ),
+            ],
+            alignment=ft.MainAxisAlignment.START,
+            spacing=0,
 
         )
-        cv = ft.Container()
+        cv = ft.TextButton(
+            text='DOWNLOAD CV',
+            style=ft.ButtonStyle(color=ft.colors.GREY),
+            icon=ft.icons.DOWNLOAD,
+            icon_color=ft.colors.GREY,
+            url='https://drive.google.com/uc?export=download&id=13kLnuJbBabsRpQsqHjtdOruODf7zPFVO'
+
+        )
         
 
         return ft.Container(
