@@ -1,5 +1,5 @@
 import flet as ft
-from components.skills import SkillRing
+from components.skills import SkillRing,SkillProgressbar
 
 class SidebarHeader(ft.UserControl):
     def build(self):
@@ -28,6 +28,10 @@ class SidebarHeader(ft.UserControl):
         )
     
 class SidebarContent(ft.UserControl):
+    def __init__(self):
+        super().__init__()
+        self.expand = True
+
     def build(self):
         location = ft.Column(
             controls=[
@@ -63,19 +67,24 @@ class SidebarContent(ft.UserControl):
         )
         skills = ft.Column(
             controls=[
-                ft.Row(
-                controls=[
-                    ft.Text(value='HTML',theme_style=ft.TextThemeStyle.BODY_LARGE,color='white'),
-                    ft.Text(value='100%',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white')
-                ],
-                alignment=ft.MainAxisAlignment.SPACE_BETWEEN
-            ),
-            ft.ProgressBar(value=1, color=ft.colors.PRIMARY,bgcolor=ft.colors.BLACK26),
-            ft.Divider(height=10,color=ft.colors.BLACK12)
+                SkillProgressbar(title='HTML',value=1),
+                SkillProgressbar(title='CSS',value=1),
+                SkillProgressbar(title='PYTHON',value=1),
+                SkillProgressbar(title='SQL',value=0.8),
+                SkillProgressbar(title='JS',value=0.7),
+                
             ]
             
         )
-        technologies = ft.Container()
+        technologies = ft.Column(
+            controls=[
+                ft.ListTile(
+                    leading=ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
+                    title=ft.Text(value='Flet',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white')
+                )
+            ]
+
+        )
         cv = ft.Container()
         
 
@@ -83,6 +92,7 @@ class SidebarContent(ft.UserControl):
             bgcolor=ft.colors.BLACK12,
             padding=ft.padding.all(20),
             content=ft.Column(
+                scroll=ft.ScrollMode.HIDDEN,
                 controls=[
                     location,
                     ft.Divider(height=30),

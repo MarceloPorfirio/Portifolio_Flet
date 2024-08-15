@@ -9,13 +9,13 @@ class App:
 
     def main(self):
         self.sidebar = Sidebar()
-        self.content = ft.Container()
+        # self.content = ft.Container()
 
         layout = ft.ResponsiveRow(
             columns=12,
             controls=[
                 self.sidebar,
-                self.content,
+                # self.content,
             ],
             expand=True
         )

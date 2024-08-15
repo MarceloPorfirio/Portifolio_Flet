@@ -1,14 +1,14 @@
 import flet as ft
 
-
-class SkillRing(ft.UserControl):
+class Skill(ft.UserControl): # classe mãe,utilizada para mudar as propriedades das demais classes
     def __init__(self, title: str, value: float):
         super().__init__()
         self.title = title
         self.value = value
-        self.expand = True # adiciona permitindo que o stack principal se expanda
 
+class SkillRing(Skill): # Herda as propriedades da classe mae
     def build(self):
+        self.expand = True # adiciona permitindo que o stack principal se expanda
         return ft.Column(
                     controls=[
                         ft.Stack(
@@ -34,3 +34,21 @@ class SkillRing(ft.UserControl):
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                     # expand=True,
                 )
+
+class SkillProgressbar(Skill):
+    def build(self):
+        return ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Row(
+                controls=[
+                    ft.Text(value=self.title,theme_style=ft.TextThemeStyle.BODY_LARGE,color='white'),
+                    ft.Text(value=f'{self.value:.0%}',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white')
+                ],
+                alignment=ft.MainAxisAlignment.SPACE_BETWEEN
+            ),
+            ft.ProgressBar(value=self.value, color=ft.colors.PRIMARY,bgcolor=ft.colors.BLACK26),
+            ft.Divider(height=10,color=ft.colors.BLACK12)
+                ]
+            )
+        )
