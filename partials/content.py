@@ -6,7 +6,23 @@ class MainContent(ft.UserControl):
         self.expand=True
 
     def build(self):
-        banner = ft.Container()
+        banner = ft.Container(
+            content=ft.ResponsiveRow(
+                columns=12,
+                vertical_alignment=ft.CrossAxisAlignment.END,
+                controls=[
+                    ft.Container(
+                        padding=ft.padding.all(50),
+                        content=ft.Column(
+                            controls=[
+                                
+                            ]
+                        )
+                    )
+                ]
+            )
+
+        )
         experience = ft.Container()
         projects = ft.Container()
         prices = ft.Container()
