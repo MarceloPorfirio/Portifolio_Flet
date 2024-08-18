@@ -10,7 +10,7 @@ class App:
 
     def main(self):
         # self.sidebar = Sidebar()
-        self.content = ft.Container()
+        self.content = MainContent()
 
         layout = ft.ResponsiveRow(
             columns=12,
