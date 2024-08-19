@@ -1,4 +1,6 @@
 import flet as ft
+from typing import List, Dict, Union
+import math
 
 class ProjectItem(ft.UserControl):
     def __init__(self, title: str, description: str, url: str, **kwargs):
@@ -31,17 +33,74 @@ class ProjectItem(ft.UserControl):
         )
     
 class PriceItem(ft.UserControl):
+    def __init__(self,price: int, url: str, items_included: List[Dict[str,bool]], **kwargs):
+        super().__init__(**kwargs)
+        self.price = price
+        self.url = url
+        self.items_included = items_included
+
     def build(self):
         return ft.Container(
             bgcolor=ft.colors.ON_SURFACE_VARIANT,
             padding=ft.padding.symmetric(vertical=20,horizontal=50),
             content=ft.Column(
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                spacing=30,
                 controls=[
                     ft.Text(value='Pagamento por hora', theme_style=ft.TextThemeStyle.LABEL_LARGE,color='white'),
+                    ft.Text(
+                        spans=[
+                            ft.TextSpan(text='R$', style=ft.TextStyle(color=ft.colors.WHITE)),
+                            ft.TextSpan(text=f' {self.price} ',style=ft.TextStyle(color=ft.colors.PRIMARY,weight=ft.FontWeight.BOLD,size=50)),
+                            ft.TextSpan(text='/hora',style=ft.TextStyle(color=ft.colors.WHITE)),
+                        ]
+                    ),
+                    ft.Column(
+                        controls=[
+                            ft.Row(
+                                controls=[
+                                    ft.Icon(
+                                      name=ft.icons.CHECK if item['is_included'] else ft.icons.CLOSE,
+                                      color=ft.colors.PRIMARY,   
+                                    ),
+                                    ft.Text(value=item['title'],color='white') 
+                                ],
+                                alignment=ft.MainAxisAlignment.CENTER
+                            ) for item in self.items_included
+                                                  ]
+                    ),
+                    ft.TextButton(
+                        content=ft.Row(
+                            controls=[
+                                ft.Text(value='QUERO ESTE', theme_style=ft.TextThemeStyle.BODY_LARGE,color=ft.colors.PRIMARY),
+                                ft.Icon(name=ft.icons.ARROW_FORWARD_IOS,size=14,color=ft.colors.PRIMARY)
+                            ],
+                            alignment=ft.MainAxisAlignment.CENTER,
+                        ),
+                        url=self.url
+                    )
 
                 ]
             )
         )   
+
+class PriceItemPopular(PriceItem):
+    def build(self):
+        price_item = super().build()
+        return ft.Stack(
+            controls=[
+                price_item,
+                ft.Container(
+                    bgcolor=ft.colors.PRIMARY,
+                    content=ft.Text(value='Popular',color=ft.colors.BLACK,weight=ft.FontWeight.BOLD),
+                    padding=ft.padding.symmetric(vertical=5,horizontal=50),
+                    right=-40,
+                    top=15,
+                    rotate=ft.Rotate(angle=math.radians(40)),
+                )
+            ]
+        )
+    
 
 class MainContent(ft.UserControl):
     def __init__(self):
@@ -248,7 +307,39 @@ class MainContent(ft.UserControl):
             spacing=30,
             run_spacing=30,
             controls=[
-                PriceItem(),
+                PriceItem(
+                    price=20,
+                    url='',
+                    items_included=[
+                        {'title': 'Prototipagem','is_included': True},
+                        {'title': 'Desenvolvimento Web','is_included': True},
+                        {'title': 'Aplicativo multiplataforma','is_included': False},
+                        {'title': 'Manutenção Mensal','is_included': False},   
+                    ],
+                    col={'xs': 12, 'lg': 4},
+                ),
+                PriceItemPopular(
+                    price=100,
+                    url='',
+                    items_included=[
+                        {'title': 'Prototipagem','is_included': True},
+                        {'title': 'Desenvolvimento Web','is_included': True},
+                        {'title': 'Aplicativo multiplataforma','is_included': True},
+                        {'title': 'Manutenção Mensal','is_included': False},
+                    ],
+                    col={'xs': 12, 'lg': 4},
+                ),
+                PriceItem(
+                    price=200,
+                    url='',
+                    items_included=[
+                        {'title': 'Prototipagem','is_included': True},
+                        {'title': 'Desenvolvimento Web','is_included': True},
+                        {'title': 'Aplicativo multiplataforma','is_included': True},
+                        {'title': 'Manutenção Mensal','is_included': True}, 
+                    ],
+                    col={'xs': 12, 'lg': 4},
+                ),
             ]
 
         )
@@ -263,7 +354,7 @@ class MainContent(ft.UserControl):
                     # banner,
                     # experience,
                     # projects,
-                    prices,
+                    # prices,
                     testimonials,
                     logos,
                     footer
