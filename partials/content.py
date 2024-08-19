@@ -101,6 +101,24 @@ class PriceItemPopular(PriceItem):
             ]
         )
     
+class TestimonialItem(ft.UserControl):
+    def build(self):
+        return ft.Container(
+            bgcolor=ft.colors.ON_SURFACE_VARIANT,
+            padding=ft.padding.all(30),
+            margin=ft.margin.only(top=20),
+            width=400,
+            content=ft.Stack(
+                controls=[
+                    ft.Column(
+                    controls=[
+                        ft.Text(value='Paula Rocha',theme_style=ft.TextThemeStyle.LABEL_LARGE,color='white'),
+                        ft.Text(value='Desenvolvedora Júnior',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white',italic=True)
+                    ]
+                )
+                ]
+            )
+        )
 
 class MainContent(ft.UserControl):
     def __init__(self):
@@ -343,7 +361,12 @@ class MainContent(ft.UserControl):
             ]
 
         )
-        testimonials = ft.Container()
+        testimonials = ft.Row(
+            controls=[
+                TestimonialItem(),
+
+            ]
+        )
         logos = ft.Container()
         footer = ft.Container()
 
