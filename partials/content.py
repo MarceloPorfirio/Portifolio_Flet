@@ -102,6 +102,13 @@ class PriceItemPopular(PriceItem):
         )
     
 class TestimonialItem(ft.UserControl):
+    def __init__(self,user: str, job: str, testimonial: str,image_src: str = 'images/testimonial-default.jpg', **kwargs):
+        super().__init__(**kwargs)
+        self.user = user
+        self.job = job
+        self.testimonial = testimonial
+        self.image_src = image_src
+
     def build(self):
         return ft.Container(
             bgcolor=ft.colors.ON_SURFACE_VARIANT,
@@ -111,10 +118,43 @@ class TestimonialItem(ft.UserControl):
             content=ft.Stack(
                 controls=[
                     ft.Column(
-                    controls=[
-                        ft.Text(value='Paula Rocha',theme_style=ft.TextThemeStyle.LABEL_LARGE,color='white'),
-                        ft.Text(value='Desenvolvedora Júnior',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white',italic=True)
-                    ]
+                        spacing=0,
+                        controls=[
+                            ft.Text(value=self.user,theme_style=ft.TextThemeStyle.LABEL_LARGE,color='white'),
+                            ft.Text(value=self.job,theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white',italic=True),
+
+                            ft.Container(height=20),
+                            ft.Text(
+                                value=self.testimonial,
+                                theme_style=ft.TextThemeStyle.BODY_MEDIUM,color=ft.colors.WHITE,
+                            ),
+
+                            ft.Container(height=20),
+                            ft.Container(
+                                content=ft.Row(
+                                    controls=[
+                                        ft.Icon(name=ft.icons.STAR,color=ft.colors.PRIMARY),
+                                        ft.Icon(name=ft.icons.STAR,color=ft.colors.PRIMARY),
+                                        ft.Icon(name=ft.icons.STAR,color=ft.colors.PRIMARY),
+                                        ft.Icon(name=ft.icons.STAR,color=ft.colors.PRIMARY),
+                                        ft.Icon(name=ft.icons.STAR,color=ft.colors.PRIMARY),
+                                    ],
+                                    tight=True
+                                ),
+                                bgcolor=ft.colors.ON_BACKGROUND,
+                                padding=ft.padding.symmetric(vertical=5,horizontal=10),
+                                border_radius=ft.border_radius.all(50),
+                            )
+                        ]
+                ),
+
+                ft.Image(
+                    src= self.image_src,
+                    border_radius=ft.border_radius.all(100),
+                    width=100,
+                    top=0,
+                    right=0,
+                    offset=ft.Offset(x=0,y=-0.5)
                 )
                 ]
             )
@@ -363,7 +403,29 @@ class MainContent(ft.UserControl):
         )
         testimonials = ft.Row(
             controls=[
-                TestimonialItem(),
+                TestimonialItem(
+                    user='Paula Rocha',
+                    job='Desenvolvedora Júnior',
+                    testimonial = 'O trabalho do Marcelo é realmente incrivel. Tudo ficou mais fácil e interativo.'
+                ),
+                TestimonialItem(
+                    user='Vera Lúcia',
+                    job='Analista Contábil',
+                    testimonial = 'O trabalho do Marcelo é realmente incrivel. Tudo ficou mais fácil e interativo.',
+                    image_src = 'images/testimonial-1-280x280.jpg',
+                ),
+                TestimonialItem(
+                    user='Vera Lúcia',
+                    job='Analista Contábil',
+                    testimonial = 'O trabalho do Marcelo é realmente incrivel. Tudo ficou mais fácil e interativo.',
+                    image_src = 'images/testimonial-1-280x280.jpg',
+                ),
+                TestimonialItem(
+                    user='Vera Lúcia',
+                    job='Analista Contábil',
+                    testimonial = 'O trabalho do Marcelo é realmente incrivel. Tudo ficou mais fácil e interativo.',
+                    image_src = 'images/testimonial-1-280x280.jpg',
+                ),
 
             ]
         )
