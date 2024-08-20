@@ -1,6 +1,7 @@
 import flet as ft
 from typing import List, Dict, Union
 import math
+from components.carousel import Carousel
 
 class ProjectItem(ft.UserControl):
     def __init__(self, title: str, description: str, url: str, **kwargs):
@@ -401,7 +402,7 @@ class MainContent(ft.UserControl):
             ]
 
         )
-        testimonials = ft.Row(
+        testimonials = Carousel(
             controls=[
                 TestimonialItem(
                     user='Paula Rocha',
@@ -429,7 +430,33 @@ class MainContent(ft.UserControl):
 
             ]
         )
-        logos = ft.Container()
+        logos = ft.Container(
+            padding=ft.padding.all(30),
+            opacity=0.6,
+            content=ft.ResponsiveRow(
+                controls=[
+                    ft.Image(
+                        src='images/brand-1-464x512.png',
+                        col={'xs': 6 , 'lg': 3 , 'xl':2}
+                    ),
+                    ft.Image(
+                        src='images/brand-2-458x512.png',
+                        col={'xs': 6 , 'lg': 3 , 'xl':2}
+                    ),
+                    ft.Image(
+                        src='images/brand-3-456x512.png',
+                        col={'xs': 6 , 'lg': 3 , 'xl':2}
+                    ),
+                    ft.Image(
+                        src='images/brand-1-464x512.png',
+                        col={'xs': 6 , 'lg': 3 , 'xl':2}
+                    ),
+
+                ],
+                spacing=30,
+                run_spacing=30,
+            )
+        )
         footer = ft.Container()
 
 
@@ -440,7 +467,7 @@ class MainContent(ft.UserControl):
                     # experience,
                     # projects,
                     # prices,
-                    testimonials,
+                    # testimonials,
                     logos,
                     footer
                 ]
