@@ -162,8 +162,8 @@ class TestimonialItem(ft.UserControl):
         )
 
 class MainContent(ft.UserControl):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__( **kwargs)
         self.expand=True
 
     def build(self):
@@ -457,17 +457,55 @@ class MainContent(ft.UserControl):
                 run_spacing=30,
             )
         )
-        footer = ft.Container()
+        footer = ft.Container(
+            bgcolor=ft.colors.ON_SURFACE_VARIANT,
+            padding=ft.padding.all(30),
+            content=ft.ResponsiveRow(
+                columns=12,
+                controls=[
+                    ft.Text(
+                        col={'xs': 12, 'md': 6},
+                        value='₢ 2024 Todos os direitos reservados.',
+                        theme_style=ft.TextThemeStyle.BODY_MEDIUM,
+                        
+                    ),
+                    ft.Text(
+                        col={'xs': 12, 'md': 6},
+                        spans=[
+                            ft.TextSpan(text='Email:'),
+                            ft.TextSpan(
+                                text='marcelobrys20@gmail.com',
+                                url='mailto:marcelobrys20@gmail.com',
+                                
+                            )
+                        ],
+                        theme_style=ft.TextThemeStyle.BODY_MEDIUM,
+                        text_align=ft.TextAlign.END
+                    ),
+
+                ]
+            )
+        )
+
+        def sections_title(title: str):
+            return ft.Container(
+                padding=ft.padding.symmetric(vertical=20),
+                content=ft.Text(value=title,theme_style=ft.TextThemeStyle.HEADLINE_MEDIUM,color='white')
+            )
 
 
         return ft.Container(
             content=ft.Column(
+                scroll=ft.ScrollMode.HIDDEN,
                 controls=[
-                    # banner,
-                    # experience,
-                    # projects,
-                    # prices,
-                    # testimonials,
+                    banner,
+                    experience,
+                    sections_title(title='Projetos'),
+                    projects,
+                    sections_title(title='Preços'),
+                    prices,
+                    sections_title(title='Recomendações'),
+                    testimonials,
                     logos,
                     footer
                 ]
