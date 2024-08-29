@@ -72,6 +72,7 @@ class SidebarContent(ft.UserControl):
                 SkillProgressbar(title='PYTHON',value=1),
                 SkillProgressbar(title='SQL',value=0.8),
                 SkillProgressbar(title='JS',value=0.7),
+                SkillProgressbar(title='PHP',value=0.6),
                 
             ]
             
@@ -84,19 +85,19 @@ class SidebarContent(ft.UserControl):
                 ),
                 ft.ListTile(
                     leading=ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
-                    title=ft.Text(value='Flet',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                    title=ft.Text(value='Pandas',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
                 ),
                 ft.ListTile(
                     leading=ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
-                    title=ft.Text(value='Flet',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                    title=ft.Text(value='Tkinter',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
                 ),
                 ft.ListTile(
                     leading=ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
-                    title=ft.Text(value='Flet',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                    title=ft.Text(value='React',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
                 ),
                 ft.ListTile(
                     leading=ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
-                    title=ft.Text(value='Flet',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                    title=ft.Text(value='Streamlit',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
                 ),
             ],
             alignment=ft.MainAxisAlignment.START,
