@@ -52,7 +52,7 @@ class PriceItem(ft.UserControl):
                     ft.Text(
                         spans=[
                             ft.TextSpan(text='R$', style=ft.TextStyle(color=ft.colors.WHITE)),
-                            ft.TextSpan(text=f' {self.price} ',style=ft.TextStyle(color=ft.colors.PRIMARY,weight=ft.FontWeight.BOLD,size=50)),
+                            ft.TextSpan(text=f' {self.price} ',style=ft.TextStyle(color=ft.colors.PRIMARY,weight=ft.FontWeight.BOLD,size=40)),
                             ft.TextSpan(text='/hora',style=ft.TextStyle(color=ft.colors.WHITE)),
                         ]
                     ),

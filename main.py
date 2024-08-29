@@ -57,7 +57,7 @@ class App:
     def __init__(self, page:ft.Page):
         self.page = page
         self.page.theme = AppTheme.theme
-        self.page.on_resize = self.show_app_bar
+        self.page.on_resized = self.show_app_bar
         self.page.bgcolor = ft.colors.BLACK
         self.main()
         self.show_app_bar()

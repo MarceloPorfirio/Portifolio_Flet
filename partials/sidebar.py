@@ -77,31 +77,68 @@ class SidebarContent(ft.UserControl):
             ]
             
         )
-        technologies = ft.Column(
-            controls=[
-                ft.ListTile(
-                    leading=ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
-                    title=ft.Text(value='Flet',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
-                ),
-                ft.ListTile(
-                    leading=ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
-                    title=ft.Text(value='Pandas',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
-                ),
-                ft.ListTile(
-                    leading=ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
-                    title=ft.Text(value='Tkinter',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
-                ),
-                ft.ListTile(
-                    leading=ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
-                    title=ft.Text(value='React',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
-                ),
-                ft.ListTile(
-                    leading=ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
-                    title=ft.Text(value='Streamlit',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
-                ),
+        technologies = ft.Container(
+            content=ft.Row(
+                controls=[
+                    ft.Column(
+                        controls=[
+                    ft.Row(
+                        controls=[
+                            ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
+                            ft.Text(value='Flet',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                        ]), 
+                    ft.Row(
+                        controls=[
+                            ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
+                            ft.Text(value='Tkinter',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                        ]
+                    ),
+                    ft.Row(
+                        controls=[
+                            ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
+                            ft.Text(value='Flask',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                        ]
+                    ),
+                    ft.Row(
+                        controls=[
+                            ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
+                            ft.Text(value='Django',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                        ]
+                    )           
+                    ]),
+                     ft.Column(
+                        controls=[
+                    ft.Row(
+                        controls=[
+                            ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
+                            ft.Text(value='Pandas',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                        ]), 
+                    ft.Row(
+                        controls=[
+                            ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
+                            ft.Text(value='Streamlit',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                        ]
+                    ),
+                    ft.Row(
+                        controls=[
+                            ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
+                            ft.Text(value='React',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                        ]
+                    ),ft.Row(
+                        controls=[
+                            ft.Icon(name=ft.icons.CHECK,color=ft.colors.PRIMARY),
+                            ft.Text(value='FireBase',theme_style=ft.TextThemeStyle.BODY_MEDIUM,color='white'),
+                        ]
+                    )        
+                    
+                    
+                    ]), 
+                
             ],
-            alignment=ft.MainAxisAlignment.START,
-            spacing=0,
+            alignment=ft.MainAxisAlignment.SPACE_AROUND,
+            )
+            # alignment=ft.MainAxisAlignment.START,
+            # spacing=0,
 
         )
         cv = ft.TextButton(
