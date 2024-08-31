@@ -1,6 +1,9 @@
 import flet as ft
 from partials.sidebar import Sidebar
 from partials.content import MainContent
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+
 
 class AppTheme:
     theme = ft.Theme(
