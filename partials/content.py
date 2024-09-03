@@ -21,12 +21,12 @@ class ProjectItem(ft.UserControl):
                     ft.TextButton(
                         content=ft.Row(
                             controls=[
-                                ft.Text(value=self.url,theme_style=ft.TextThemeStyle.BODY_LARGE,color=ft.colors.PRIMARY),
+                                ft.Text(value='VER AO VIVO',theme_style=ft.TextThemeStyle.BODY_LARGE,color=ft.colors.PRIMARY),
                                 ft.Icon(name=ft.icons.ARROW_FORWARD_IOS,size=14,color=ft.colors.PRIMARY),
                             ],
                             tight=True,
                         ),
-                        url='#',
+                        url=self.url,
                     )
 
                 ]
@@ -340,21 +340,21 @@ class MainContent(ft.UserControl):
                     col={'xs':12, 'md': 6, 'lg': 4},
                 ),
                  ProjectItem(
-                    title='Calculadora Iphone', 
-                    description='Calculadora com o mesmo visual do App Calculadora para iOS.',
-                    url='VER AO VIVO',
+                    title='DashBoard Supermarket', 
+                    description='Modelo de analise de dados detalhada de um dashboard fictício de supermercados. ',
+                    url='https://dashsupermarket-brm4ykhyagv7egfofsv7yr.streamlit.app/',
                     col={'xs':12, 'md': 6, 'lg': 4},
                 ),
                  ProjectItem(
-                    title='Calculadora Iphone', 
-                    description='Calculadora com o mesmo visual do App Calculadora para iOS.',
-                    url='VER AO VIVO',
+                    title='ToDo App', 
+                    description='App completo para cadastro de tarefas, incluindo banco de dados.',
+                    url='https://github.com/MarceloPorfirio/Full_ToDo_App',
                     col={'xs':12, 'md': 6, 'lg': 4},
                 ),
                  ProjectItem(
-                    title='Calculadora Iphone', 
-                    description='Calculadora com o mesmo visual do App Calculadora para iOS.',
-                    url='VER AO VIVO',
+                    title='Card Ecommerce', 
+                    description='Um card interativo para utilização em diversas páginas de web e desktop.',
+                    url='https://github.com/MarceloPorfirio/Card_Ecommerce',
                     col={'xs':12, 'md': 6, 'lg': 4},
                 ),
             ],
