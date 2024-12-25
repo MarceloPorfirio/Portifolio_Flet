@@ -221,7 +221,7 @@ class MainContent(ft.UserControl):
                     ft.Container(
                         col={'md':12,'lg':4},
                         content=ft.Image(
-                            src='images/face-2.png',
+                            src='images/eu_port.png',
                             width=15,
                             # scale=ft.Scale(scale=1.8, alignment=ft.alignment.bottom_center)
                         )
