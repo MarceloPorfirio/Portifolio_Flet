@@ -61,7 +61,7 @@ class SidebarContent(ft.UserControl):
         languages = ft.Row(
             controls=[
                 SkillRing(title='Português',value=1),
-                SkillRing(title='Inglês',value=0.8),
+                SkillRing(title='Inglês',value=0.9),
                 SkillRing(title='Espanhol',value=0.5)
             ]
         )
