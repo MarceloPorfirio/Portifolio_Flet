@@ -61,7 +61,7 @@ class SidebarContent(ft.UserControl):
         languages = ft.Row(
             controls=[
                 SkillRing(title='Português',value=1),
-                SkillRing(title='Inglês',value=0.9),
+                SkillRing(title='Inglês',value=1),
                 SkillRing(title='Espanhol',value=0.5)
             ]
         )
@@ -70,7 +70,7 @@ class SidebarContent(ft.UserControl):
                 SkillProgressbar(title='HTML',value=1),
                 SkillProgressbar(title='CSS',value=1),
                 SkillProgressbar(title='PYTHON',value=1),
-                SkillProgressbar(title='SQL',value=0.8),
+                SkillProgressbar(title='SQL',value=0.9),
                 SkillProgressbar(title='JS',value=0.7),
                 SkillProgressbar(title='PHP',value=0.6),
                 

@@ -10,29 +10,44 @@ class ProjectItem(ft.UserControl):
         self.description = description
         self.url = url
 
-    def build(self):
-        return ft.Container(
+        # Inicializa o container no __init__
+        self.container = ft.Container(
             padding=ft.padding.all(30),
             bgcolor=ft.colors.ON_SURFACE_VARIANT,
             content=ft.Column(
                 controls=[
-                    ft.Text(value=self.title,theme_style=ft.TextThemeStyle.LABEL_LARGE,color='white'),
-                    ft.Text(value=self.description,color='white'),
+                    ft.Text(value=self.title, theme_style=ft.TextThemeStyle.LABEL_LARGE, color='white'),
+                    ft.Text(value=self.description, color='white'),
                     ft.TextButton(
                         content=ft.Row(
                             controls=[
-                                ft.Text(value='VER AO VIVO',theme_style=ft.TextThemeStyle.BODY_LARGE,color=ft.colors.PRIMARY),
-                                ft.Icon(name=ft.icons.ARROW_FORWARD_IOS,size=14,color=ft.colors.PRIMARY),
+                                ft.Text(value='VER AO VIVO', theme_style=ft.TextThemeStyle.BODY_LARGE, color=ft.colors.PRIMARY),
+                                ft.Icon(name=ft.icons.ARROW_FORWARD_IOS, size=14, color=ft.colors.PRIMARY),
                             ],
                             tight=True,
                         ),
                         url=self.url,
                     )
-
                 ]
-            )
+            ),
+            on_hover=self.on_hover  # Adiciona o evento on_hover
         )
+
+    def build(self):
+        return self.container  # Retorna o container já inicializado
     
+    def on_hover(self, e):
+        if e.data == "true":  # Quando o mouse entra no container
+            self.container.shadow = ft.BoxShadow(
+                color=ft.colors.WHITE60,
+                offset=ft.Offset(x=0, y=0),
+                blur_radius=10,
+                spread_radius=2,
+            )
+        else:  # Quando o mouse sai do container
+            self.container.shadow = None
+        self.container.update()
+
 class PriceItem(ft.UserControl):
     def __init__(self,price: int, url: str, items_included: List[Dict[str,bool]], **kwargs):
         super().__init__(**kwargs)
@@ -170,10 +185,10 @@ class MainContent(ft.UserControl):
         banner = ft.Container(
             shadow=ft.BoxShadow(
                 color=ft.colors.WHITE60,
-                offset=ft.Offset(x=0,y=-60), # definir o tamanho da sombra como 60
+                offset=ft.Offset(x=0,y=-50), # definir o tamanho da sombra como 60
                 spread_radius=-30, # cortar para metade para dar o efeito.
             ),
-            image_src='images/bg.jpg',
+            image_src='images/bg_2.jpg',
             image_fit=ft.ImageFit.COVER,
             image_repeat=ft.ImageRepeat.NO_REPEAT,
             image_opacity=0.5,
@@ -196,7 +211,7 @@ class MainContent(ft.UserControl):
                                         ft.TextSpan(text='>',style=ft.TextStyle(color=ft.colors.PRIMARY)),
 
                                         ft.TextSpan(text='Eu desenvolvo aplicativos iOS e Android, softwares para MacOS, Windows e Linux. Além de Websites Responsivos e Tratamento de Dados.',
-                                                    style=ft.TextStyle(color=ft.colors.WHITE)),
+                                                    style=ft.TextStyle(color=ft.colors.WHITE,size=16)),
 
                                         ft.TextSpan(text='</',style=ft.TextStyle(color=ft.colors.PRIMARY)),
                                         ft.TextSpan(text='code',style=ft.TextStyle(color=ft.colors.PRIMARY)),
@@ -218,14 +233,14 @@ class MainContent(ft.UserControl):
                         )
                     ),
 
-                    ft.Container(
-                        col={'md':12,'lg':4},
-                        content=ft.Image(
-                            src='images/eu_port.png',
-                            width=15,
-                            # scale=ft.Scale(scale=1.8, alignment=ft.alignment.bottom_center)
-                        )
-                    )
+                    # ft.Container(
+                    #     col={'md':12,'lg':4},
+                    #     content=ft.Image(
+                    #         # src='images/eu_port.png',
+                    #         width=15,
+                    #         # scale=ft.Scale(scale=1.8, alignment=ft.alignment.bottom_center)
+                    #     )
+                    # )
                 ]
             )
 
@@ -247,7 +262,7 @@ class MainContent(ft.UserControl):
                             )
                         ),
                             ft.TextSpan(
-                                text=' Anos de experiência',
+                                text=' Anos de \nexperiência',
                                 style=ft.TextStyle(
                                     color=ft.colors.WHITE,
                                     size=16
@@ -267,7 +282,7 @@ class MainContent(ft.UserControl):
                             )
                         ),
                             ft.TextSpan(
-                                text=' Projetos concluídos',
+                                text=' Projetos \nconcluídos',
                                 style=ft.TextStyle(
                                     color=ft.colors.WHITE,
                                     size=16
@@ -287,7 +302,7 @@ class MainContent(ft.UserControl):
                             )
                         ),
                             ft.TextSpan(
-                                text=' Clientes Satisfeitos',
+                                text=' Clientes \nsatisfeitos',
                                 style=ft.TextStyle(
                                     color=ft.colors.WHITE,
                                     size=16
@@ -307,7 +322,7 @@ class MainContent(ft.UserControl):
                             )
                         ),
                             ft.TextSpan(
-                                text=' Linguagens de domínio',
+                                text=' Linguagens de \ndomínio',
                                 style=ft.TextStyle(
                                     color=ft.colors.WHITE,
                                     size=16
@@ -318,49 +333,53 @@ class MainContent(ft.UserControl):
                 ]
             )
         )
-        projects = ft.ResponsiveRow(
-            columns=12,
-            controls=[
-                ProjectItem(
-                    title='Calculadora Iphone', 
-                    description='Calculadora com o mesmo visual do App Calculadora para iOS.',
-                    url='VER AO VIVO',
-                    col={'xs':12, 'md': 6, 'lg': 4},
-                ),
-                 ProjectItem(
-                    title='Calculadora Iphone', 
-                    description='Calculadora com o mesmo visual do App Calculadora para iOS.',
-                    url='VER AO VIVO',
-                    col={'xs':12, 'md': 6, 'lg': 4},
-                ),
-                 ProjectItem(
-                    title='Calculadora Iphone', 
-                    description='Calculadora com o mesmo visual do App Calculadora para iOS.',
-                    url='VER AO VIVO',
-                    col={'xs':12, 'md': 6, 'lg': 4},
-                ),
-                 ProjectItem(
-                    title='DashBoard Supermarket', 
-                    description='Modelo de analise de dados detalhada de um dashboard fictício de supermercados. ',
-                    url='https://dashsupermarket-brm4ykhyagv7egfofsv7yr.streamlit.app/',
-                    col={'xs':12, 'md': 6, 'lg': 4},
-                ),
-                 ProjectItem(
-                    title='ToDo App', 
-                    description='App completo para cadastro de tarefas, incluindo banco de dados.',
-                    url='https://github.com/MarceloPorfirio/Full_ToDo_App',
-                    col={'xs':12, 'md': 6, 'lg': 4},
-                ),
-                 ProjectItem(
-                    title='Card Ecommerce', 
-                    description='Um card interativo para utilização em diversas páginas de web e desktop.',
-                    url='https://github.com/MarceloPorfirio/Card_Ecommerce',
-                    col={'xs':12, 'md': 6, 'lg': 4},
-                ),
-            ],
-            spacing=30,
-            run_spacing=30,
+        projects = ft.Container(
+            padding=ft.padding.symmetric(horizontal=20, vertical=20),  # Adiciona padding ao redor do ResponsiveRow
+            content=ft.ResponsiveRow(
+                columns=12,
+                controls=[
+                    ProjectItem(
+                        title='Site Lavanderia', 
+                        description='Site completo de uma lavanderia, com informações sobre o negócio, exposição de serviços e contato.',
+                        url='https://allcleancb.netlify.app/',
+                        col={'xs':12, 'md': 6, 'lg': 4},
+                    ),
+                    ProjectItem(
+                        title='Sistema de Agendamento', 
+                        description='Sistema desenvolvido para fins de agendamento de serviços estéticos.',
+                        url='https://github.com/MarceloPorfirio/Navigation_Flet/blob/main/agenda.py',
+                        col={'xs':12, 'md': 6, 'lg': 4},
+                    ),
+                    ProjectItem(
+                        title='Layout Clone Instagram', 
+                        description='Layout desenvolvido com a poderosa framework do python, Flet - baseado em Flutter.',
+                        url='https://github.com/MarceloPorfirio/Clone_insta',
+                        col={'xs':12, 'md': 6, 'lg': 4},
+                    ),
+                    ProjectItem(
+                        title='DashBoard Supermarket', 
+                        description='Modelo de analise de dados detalhada de um dashboard fictício de supermercados.',
+                        url='https://dashsupermarket-brm4ykhyagv7egfofsv7yr.streamlit.app/',
+                        col={'xs':12, 'md': 6, 'lg': 4},
+                    ),
+                    ProjectItem(
+                        title='ToDo App', 
+                        description='App completo para cadastro de tarefas, incluindo banco de dados.\n',
+                        url='https://github.com/MarceloPorfirio/Full_ToDo_App',
+                        col={'xs':12, 'md': 6, 'lg': 4},
+                    ),
+                    ProjectItem(
+                        title='Card Ecommerce', 
+                        description='Um card interativo para utilização em diversas páginas de web e desktop.\n',
+                        url='https://github.com/MarceloPorfirio/Card_Ecommerce',
+                        col={'xs':12, 'md': 6, 'lg': 4},
+                    ),
+                ],
+                spacing=30,
+                run_spacing=30,
+            ),
         )
+
         prices = ft.ResponsiveRow(
             columns=12,
             spacing=30,
@@ -372,7 +391,7 @@ class MainContent(ft.UserControl):
                     items_included=[
                         {'title': 'Prototipagem','is_included': True},
                         {'title': 'Desenvolvimento Web','is_included': True},
-                        {'title': 'Aplicativo multiplataforma','is_included': False},
+                        {'title': 'App multiplataforma','is_included': False},
                         {'title': 'Manutenção Mensal','is_included': False},   
                     ],
                     col={'xs': 12, 'lg': 4},
@@ -383,7 +402,7 @@ class MainContent(ft.UserControl):
                     items_included=[
                         {'title': 'Prototipagem','is_included': True},
                         {'title': 'Desenvolvimento Web','is_included': True},
-                        {'title': 'Aplicativo multiplataforma','is_included': True},
+                        {'title': 'App multiplataforma','is_included': True},
                         {'title': 'Manutenção Mensal','is_included': False},
                     ],
                     col={'xs': 12, 'lg': 4},
@@ -394,7 +413,7 @@ class MainContent(ft.UserControl):
                     items_included=[
                         {'title': 'Prototipagem','is_included': True},
                         {'title': 'Desenvolvimento Web','is_included': True},
-                        {'title': 'Aplicativo multiplataforma','is_included': True},
+                        {'title': 'App multiplataforma','is_included': True},
                         {'title': 'Manutenção Mensal','is_included': True}, 
                     ],
                     col={'xs': 12, 'lg': 4},
