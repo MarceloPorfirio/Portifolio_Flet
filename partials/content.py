@@ -1,21 +1,23 @@
 import flet as ft
-from typing import List, Dict, Union
-import math
-from components.carousel import Carousel
+from components.styles import glassmorphism_container, section_header
+
 
 class ProjectItem(ft.Container):
-    def __init__(self, title: str, description: str, url: str, **kwargs):
+    def __init__(self, title: str, description: str, url: str,
+                 index: int = 0, category: str = "Web", **kwargs):
         super().__init__(**kwargs)
         self.title = title
         self.description = description
         self.url = url
+        self.index = index
+        self.category = category
 
-        # Configura o próprio container com visual moderno
         self.padding = ft.padding.all(30)
         self.bgcolor = ft.Colors.with_opacity(0.5, ft.Colors.ON_SURFACE)
         self.border_radius = 15
         self.border = ft.border.all(1, ft.Colors.with_opacity(0.1, ft.Colors.PRIMARY))
         self.animate_scale = ft.Animation(200, ft.AnimationCurve.EASE_OUT)
+        self.animate = ft.Animation(200, ft.AnimationCurve.EASE_OUT)
         self.shadow = ft.BoxShadow(
             spread_radius=1,
             blur_radius=15,
@@ -23,26 +25,74 @@ class ProjectItem(ft.Container):
             offset=ft.Offset(0, 4),
         )
 
+        self.height = 280
         self.content = ft.Column(
+            expand=True,
             controls=[
-                ft.Text(value=self.title, theme_style=ft.TextThemeStyle.LABEL_LARGE),
+                ft.Container(
+                    width=50,
+                    height=4,
+                    bgcolor=ft.Colors.PRIMARY,
+                    border_radius=2,
+                    margin=ft.margin.only(bottom=10),
+                ),
+                ft.Row(
+                    controls=[
+                        ft.Container(
+                            content=ft.Text(
+                                value=f"0{self.index}",
+                                size=12,
+                                weight=ft.FontWeight.BOLD,
+                                color=ft.Colors.PRIMARY,
+                            ),
+                            padding=ft.padding.symmetric(horizontal=10, vertical=4),
+                            border=ft.border.all(1, ft.Colors.with_opacity(0.3, ft.Colors.PRIMARY)),
+                            border_radius=8,
+                        ),
+                        ft.Container(
+                            content=ft.Text(
+                                value=self.category,
+                                size=11,
+                                weight=ft.FontWeight.W_600,
+                                color=ft.Colors.with_opacity(0.7, ft.Colors.WHITE),
+                            ),
+                            padding=ft.padding.symmetric(horizontal=10, vertical=4),
+                            bgcolor=ft.Colors.with_opacity(0.1, ft.Colors.PRIMARY),
+                            border_radius=8,
+                        ),
+                    ],
+                    spacing=8,
+                ),
                 ft.Container(height=10),
-                ft.Text(value=self.description),
-                ft.Container(height=15),
-                ft.TextButton(
-                    content=ft.Row(
-                        controls=[
-                            ft.Text(value='VER AO VIVO', theme_style=ft.TextThemeStyle.BODY_LARGE, color=ft.Colors.PRIMARY, weight=ft.FontWeight.BOLD),
-                            ft.Icon(name=ft.Icons.ARROW_FORWARD, size=18, color=ft.Colors.PRIMARY),
-                        ],
-                        tight=True,
+                ft.Text(value=self.title, theme_style=ft.TextThemeStyle.LABEL_LARGE),
+                ft.Container(height=8),
+                ft.Text(value=self.description, theme_style=ft.TextThemeStyle.BODY_MEDIUM),
+                ft.Container(expand=True),
+                ft.Container(
+                    content=ft.TextButton(
+                        content=ft.Row(
+                            controls=[
+                                ft.Text(
+                                    value='VER AO VIVO',
+                                    theme_style=ft.TextThemeStyle.BODY_LARGE,
+                                    color=ft.Colors.PRIMARY,
+                                    weight=ft.FontWeight.BOLD,
+                                    size=13,
+                                ),
+                                ft.Icon(name=ft.Icons.ARROW_OUTWARD, size=16, color=ft.Colors.PRIMARY),
+                            ],
+                            tight=True,
+                            spacing=6,
+                        ),
+                        url=self.url,
+                        style=ft.ButtonStyle(
+                            shape=ft.RoundedRectangleBorder(radius=10),
+                            padding=ft.padding.symmetric(horizontal=20, vertical=12),
+                        )
                     ),
-                    url=self.url,
-                    style=ft.ButtonStyle(
-                        shape=ft.RoundedRectangleBorder(radius=8),
-                        padding=ft.padding.symmetric(horizontal=20, vertical=12),
-                    )
-                )
+                    border=ft.border.all(1, ft.Colors.with_opacity(0.2, ft.Colors.PRIMARY)),
+                    border_radius=10,
+                ),
             ]
         )
         self.on_hover = self._on_hover
@@ -50,6 +100,7 @@ class ProjectItem(ft.Container):
     def _on_hover(self, e):
         if e.data == "true":
             self.scale = 1.03
+            self.border = ft.border.all(1, ft.Colors.with_opacity(0.4, ft.Colors.PRIMARY))
             self.shadow = ft.BoxShadow(
                 spread_radius=3,
                 blur_radius=25,
@@ -58,6 +109,7 @@ class ProjectItem(ft.Container):
             )
         else:
             self.scale = 1.0
+            self.border = ft.border.all(1, ft.Colors.with_opacity(0.1, ft.Colors.PRIMARY))
             self.shadow = ft.BoxShadow(
                 spread_radius=1,
                 blur_radius=15,
@@ -66,18 +118,21 @@ class ProjectItem(ft.Container):
             )
         self.update()
 
-class PriceItem(ft.Container):
-    def __init__(self, price: int, url: str, items_included: List[Dict[str, bool]], **kwargs):
-        super().__init__(**kwargs)
-        self.price = price
-        self.url = url
-        self.items_included = items_included
 
-        # Configura o próprio container com visual moderno
+class ServiceItem(ft.Container):
+    def __init__(self, icon: str, title: str, description: str,
+                 highlights: list = None, **kwargs):
+        super().__init__(**kwargs)
+
         self.bgcolor = ft.Colors.with_opacity(0.3, ft.Colors.ON_SURFACE)
-        self.padding = ft.padding.symmetric(vertical=30, horizontal=40)
+        self.padding = ft.padding.all(30)
         self.border_radius = 20
-        self.border = ft.border.all(2, ft.Colors.with_opacity(0.2, ft.Colors.PRIMARY))
+        self.border = ft.border.only(
+            top=ft.BorderSide(3, ft.Colors.PRIMARY),
+            left=ft.BorderSide(1, ft.Colors.with_opacity(0.15, ft.Colors.PRIMARY)),
+            right=ft.BorderSide(1, ft.Colors.with_opacity(0.15, ft.Colors.PRIMARY)),
+            bottom=ft.BorderSide(1, ft.Colors.with_opacity(0.15, ft.Colors.PRIMARY)),
+        )
         self.shadow = ft.BoxShadow(
             spread_radius=2,
             blur_radius=20,
@@ -85,61 +140,47 @@ class PriceItem(ft.Container):
             offset=ft.Offset(0, 5),
         )
         self.animate_scale = ft.Animation(200, ft.AnimationCurve.EASE_OUT)
+        self.animate = ft.Animation(200, ft.AnimationCurve.EASE_OUT)
+
+        highlight_controls = []
+        if highlights:
+            for h in highlights:
+                highlight_controls.append(
+                    ft.Row(
+                        controls=[
+                            ft.Icon(name=ft.Icons.CHECK_CIRCLE, color=ft.Colors.PRIMARY, size=18),
+                            ft.Text(value=h, size=13, weight=ft.FontWeight.W_500),
+                        ],
+                        spacing=8,
+                    )
+                )
 
         self.content = ft.Column(
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            spacing=25,
+            spacing=15,
             controls=[
                 ft.Container(
-                    content=ft.Text(value='Pagamento por hora', theme_style=ft.TextThemeStyle.LABEL_LARGE),
-                    padding=ft.padding.symmetric(vertical=10, horizontal=20),
+                    content=ft.Icon(name=icon, color=ft.Colors.PRIMARY, size=40),
+                    padding=ft.padding.all(20),
                     bgcolor=ft.Colors.with_opacity(0.1, ft.Colors.PRIMARY),
-                    border_radius=20,
+                    border_radius=50,
+                ),
+                ft.Container(height=5),
+                ft.Text(
+                    value=title,
+                    theme_style=ft.TextThemeStyle.LABEL_LARGE,
+                    size=18,
+                    text_align=ft.TextAlign.CENTER,
                 ),
                 ft.Text(
-                    spans=[
-                        ft.TextSpan(text='R$', style=ft.TextStyle(size=20)),
-                        ft.TextSpan(text=f' {self.price} ', style=ft.TextStyle(color=ft.Colors.PRIMARY, weight=ft.FontWeight.BOLD, size=48)),
-                        ft.TextSpan(text='/hora', style=ft.TextStyle(size=16)),
-                    ]
+                    value=description,
+                    theme_style=ft.TextThemeStyle.BODY_MEDIUM,
+                    size=13,
+                    text_align=ft.TextAlign.CENTER,
+                    color=ft.Colors.with_opacity(0.7, ft.Colors.WHITE),
                 ),
-                ft.Divider(height=20, color=ft.Colors.with_opacity(0.1, ft.Colors.PRIMARY)),
-                ft.Column(
-                    spacing=15,
-                    controls=[
-                        ft.Row(
-                            controls=[
-                                ft.Icon(
-                                    name=ft.Icons.CHECK_CIRCLE if item['is_included'] else ft.Icons.CANCEL,
-                                    color=ft.Colors.PRIMARY if item['is_included'] else ft.Colors.with_opacity(0.3, ft.Colors.WHITE),
-                                    size=22,
-                                ),
-                                ft.Text(
-                                    value=item['title'],
-                                    weight=ft.FontWeight.W_500 if item['is_included'] else ft.FontWeight.NORMAL,
-                                )
-                            ],
-                            alignment=ft.MainAxisAlignment.START
-                        ) for item in self.items_included
-                    ]
-                ),
-                ft.Container(height=10),
-                ft.ElevatedButton(
-                    content=ft.Row(
-                        controls=[
-                            ft.Text(value='ESCOLHER PLANO', weight=ft.FontWeight.BOLD, color=ft.Colors.BLACK),
-                            ft.Icon(name=ft.Icons.ARROW_FORWARD, size=18, color=ft.Colors.BLACK)
-                        ],
-                        alignment=ft.MainAxisAlignment.CENTER,
-                        tight=True,
-                    ),
-                    bgcolor=ft.Colors.PRIMARY,
-                    style=ft.ButtonStyle(
-                        shape=ft.RoundedRectangleBorder(radius=12),
-                        padding=ft.padding.symmetric(horizontal=30, vertical=15),
-                    ),
-                    url=self.url
-                )
+                ft.Divider(height=10, color=ft.Colors.with_opacity(0.1, ft.Colors.PRIMARY)),
+                ft.Column(spacing=10, controls=highlight_controls),
             ]
         )
         self.on_hover = self._on_hover
@@ -163,125 +204,159 @@ class PriceItem(ft.Container):
             )
         self.update()
 
-class PriceItemPopular(ft.Stack):
-    def __init__(self, price: int, url: str, items_included: List[Dict[str, bool]], **kwargs):
+
+class CertificationItem(ft.Container):
+    def __init__(self, title: str, institution: str, year: str,
+                 icon: str = ft.Icons.WORKSPACE_PREMIUM, url: str = None, **kwargs):
         super().__init__(**kwargs)
-        self.price = price
-        self.url = url
-        self.items_included = items_included
 
-        # Cria o PriceItem
-        price_item = PriceItem(
-            price=self.price,
-            url=self.url,
-            items_included=self.items_included
-        )
-
-        # Configura o próprio Stack
-        self.controls = [
-            price_item,
-            ft.Container(
-                bgcolor=ft.Colors.PRIMARY,
-                content=ft.Text(value='Popular', color=ft.Colors.BLACK, weight=ft.FontWeight.BOLD),
-                padding=ft.padding.symmetric(vertical=5, horizontal=50),
-                right=-40,
-                top=15,
-                rotate=ft.Rotate(angle=math.radians(40)),
-            )
-        ]
-
-class TestimonialItem(ft.Container):
-    def __init__(self, user: str, job: str, testimonial: str, image_src: str = 'images/testimonial-default.jpg', **kwargs):
-        super().__init__(**kwargs)
-        self.user = user
-        self.job = job
-        self.testimonial = testimonial
-        self.image_src = image_src
-
-        # Configura o próprio container com visual moderno
-        self.bgcolor = ft.Colors.with_opacity(0.4, ft.Colors.ON_SURFACE)
-        self.padding = ft.padding.all(35)
-        self.margin = ft.margin.only(top=30)
-        self.width = 450
-        self.border_radius = 20
-        self.border = ft.border.all(1, ft.Colors.with_opacity(0.15, ft.Colors.PRIMARY))
+        self.bgcolor = ft.Colors.with_opacity(0.3, ft.Colors.ON_SURFACE)
+        self.padding = ft.padding.all(25)
+        self.border_radius = 16
+        self.border = ft.border.all(1, ft.Colors.with_opacity(0.1, ft.Colors.PRIMARY))
         self.shadow = ft.BoxShadow(
-            spread_radius=2,
-            blur_radius=20,
-            color=ft.Colors.with_opacity(0.2, ft.Colors.BLACK),
-            offset=ft.Offset(0, 5),
+            spread_radius=1,
+            blur_radius=15,
+            color=ft.Colors.with_opacity(0.1, ft.Colors.BLACK),
+            offset=ft.Offset(0, 4),
         )
+        self.animate_scale = ft.Animation(200, ft.AnimationCurve.EASE_OUT)
+        self.animate = ft.Animation(200, ft.AnimationCurve.EASE_OUT)
 
-        self.content = ft.Stack(
-            controls=[
-                ft.Column(
-                    spacing=15,
-                    controls=[
-                        ft.Icon(
-                            name=ft.Icons.FORMAT_QUOTE,
-                            color=ft.Colors.with_opacity(0.3, ft.Colors.PRIMARY),
-                            size=40,
-                        ),
-                        ft.Text(
-                            value=self.testimonial,
-                            theme_style=ft.TextThemeStyle.BODY_MEDIUM,
-                            size=15,
-                            italic=True,
-                        ),
-                        ft.Container(height=10),
-                        ft.Container(
-                            content=ft.Row(
-                                controls=[
-                                    ft.Icon(name=ft.Icons.STAR, color=ft.Colors.PRIMARY, size=20),
-                                    ft.Icon(name=ft.Icons.STAR, color=ft.Colors.PRIMARY, size=20),
-                                    ft.Icon(name=ft.Icons.STAR, color=ft.Colors.PRIMARY, size=20),
-                                    ft.Icon(name=ft.Icons.STAR, color=ft.Colors.PRIMARY, size=20),
-                                    ft.Icon(name=ft.Icons.STAR, color=ft.Colors.PRIMARY, size=20),
-                                ],
-                                tight=True,
-                                spacing=5,
-                            ),
-                            padding=ft.padding.symmetric(vertical=8, horizontal=15),
-                            bgcolor=ft.Colors.with_opacity(0.1, ft.Colors.PRIMARY),
-                            border_radius=25,
-                        ),
-                        ft.Container(height=5),
-                        ft.Text(value=self.user, theme_style=ft.TextThemeStyle.LABEL_LARGE, size=17),
-                        ft.Text(
-                            value=self.job,
-                            theme_style=ft.TextThemeStyle.BODY_MEDIUM,
-                            italic=True,
-                            color=ft.Colors.with_opacity(0.7, ft.Colors.PRIMARY),
-                        ),
-                    ]
-                ),
-                ft.Container(
-                    content=ft.Image(
-                        src=self.image_src,
-                        border_radius=ft.border_radius.all(100),
-                        width=90,
-                        height=90,
-                        fit=ft.ImageFit.COVER,
+        link_row = []
+        if url:
+            link_row.append(
+                ft.TextButton(
+                    content=ft.Row(
+                        controls=[
+                            ft.Text(value='Ver certificado', size=12, color=ft.Colors.PRIMARY,
+                                    weight=ft.FontWeight.W_600),
+                            ft.Icon(name=ft.Icons.ARROW_OUTWARD, size=14, color=ft.Colors.PRIMARY),
+                        ],
+                        tight=True,
+                        spacing=4,
                     ),
-                    border=ft.border.all(4, ft.Colors.PRIMARY),
-                    border_radius=100,
-                    shadow=ft.BoxShadow(
-                        spread_radius=2,
-                        blur_radius=10,
-                        color=ft.Colors.with_opacity(0.4, ft.Colors.PRIMARY),
-                    ),
-                    top=-15,
-                    right=10,
+                    url=url,
                 )
-            ]
+            )
+
+        self.content = ft.Row(
+            vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            spacing=20,
+            controls=[
+                ft.Container(
+                    content=ft.Icon(name=icon, color=ft.Colors.PRIMARY, size=30),
+                    padding=ft.padding.all(15),
+                    bgcolor=ft.Colors.with_opacity(0.1, ft.Colors.PRIMARY),
+                    border_radius=14,
+                ),
+                ft.Column(
+                    expand=True,
+                    spacing=4,
+                    controls=[
+                        ft.Text(
+                            value=title,
+                            theme_style=ft.TextThemeStyle.LABEL_LARGE,
+                            size=15,
+                        ),
+                        ft.Text(
+                            value=institution,
+                            size=13,
+                            color=ft.Colors.with_opacity(0.7, ft.Colors.WHITE),
+                        ),
+                        ft.Row(
+                            controls=[
+                                ft.Container(
+                                    content=ft.Text(
+                                        value=year,
+                                        size=11,
+                                        weight=ft.FontWeight.W_600,
+                                        color=ft.Colors.PRIMARY,
+                                    ),
+                                    padding=ft.padding.symmetric(horizontal=10, vertical=3),
+                                    bgcolor=ft.Colors.with_opacity(0.1, ft.Colors.PRIMARY),
+                                    border_radius=8,
+                                ),
+                                *link_row,
+                            ],
+                            spacing=10,
+                        ),
+                    ],
+                ),
+            ],
         )
+        self.on_hover = self._on_hover
+
+    def _on_hover(self, e):
+        if e.data == "true":
+            self.scale = 1.02
+            self.border = ft.border.all(1, ft.Colors.with_opacity(0.3, ft.Colors.PRIMARY))
+            self.shadow = ft.BoxShadow(
+                spread_radius=2, blur_radius=20,
+                color=ft.Colors.with_opacity(0.2, ft.Colors.PRIMARY),
+                offset=ft.Offset(0, 6),
+            )
+        else:
+            self.scale = 1.0
+            self.border = ft.border.all(1, ft.Colors.with_opacity(0.1, ft.Colors.PRIMARY))
+            self.shadow = ft.BoxShadow(
+                spread_radius=1, blur_radius=15,
+                color=ft.Colors.with_opacity(0.1, ft.Colors.BLACK),
+                offset=ft.Offset(0, 4),
+            )
+        self.update()
+
 
 class MainContent(ft.Container):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.expand = True
 
-        # Configura banner com gradiente moderno
+        # --- Helper: Stat Card ---
+        def stat_card(icon: str, number: str, label: str) -> ft.Container:
+            card = glassmorphism_container(
+                col={'xs': 6, 'md': 3},
+                padding=ft.padding.all(25),
+                animate_scale=ft.Animation(200, ft.AnimationCurve.EASE_OUT),
+                content=ft.Column(
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                    spacing=10,
+                    controls=[
+                        ft.Icon(name=icon, color=ft.Colors.PRIMARY, size=32),
+                        ft.Text(
+                            value=number,
+                            size=36,
+                            weight=ft.FontWeight.W_900,
+                            color=ft.Colors.PRIMARY,
+                        ),
+                        ft.Text(
+                            value=label,
+                            size=14,
+                            text_align=ft.TextAlign.CENTER,
+                            weight=ft.FontWeight.W_500,
+                        ),
+                    ],
+                ),
+            )
+            card.on_hover = lambda e: _stat_hover(e, card)
+            return card
+
+        def _stat_hover(e, card):
+            if e.data == "true":
+                card.scale = 1.05
+                card.shadow = ft.BoxShadow(
+                    spread_radius=2, blur_radius=25,
+                    color=ft.Colors.with_opacity(0.3, ft.Colors.PRIMARY),
+                )
+            else:
+                card.scale = 1.0
+                card.shadow = ft.BoxShadow(
+                    spread_radius=0, blur_radius=20,
+                    color=ft.Colors.with_opacity(0.1, ft.Colors.BLACK),
+                )
+            card.update()
+
+        # --- Banner ---
         banner = ft.Container(
             shadow=ft.BoxShadow(
                 color=ft.Colors.with_opacity(0.3, ft.Colors.PRIMARY),
@@ -312,24 +387,47 @@ class MainContent(ft.Container):
                 vertical_alignment=ft.CrossAxisAlignment.END,
                 controls=[
                     ft.Container(
-                        col={'md':12,'lg':8},
+                        col={'md': 12, 'lg': 8},
                         padding=ft.padding.all(50),
                         content=ft.Column(
                             controls=[
-                                ft.Text(value='Descubra meu Incrível Portifólio', theme_style=ft.TextThemeStyle.HEADLINE_LARGE),
+                                ft.ShaderMask(
+                                    content=ft.Text(
+                                        value='Descubra meu Incrível Portifólio',
+                                        theme_style=ft.TextThemeStyle.HEADLINE_LARGE,
+                                        color=ft.Colors.WHITE,
+                                    ),
+                                    shader=ft.LinearGradient(
+                                        begin=ft.alignment.center_left,
+                                        end=ft.alignment.center_right,
+                                        colors=[ft.Colors.WHITE, ft.Colors.PRIMARY],
+                                    ),
+                                    blend_mode=ft.BlendMode.SRC_IN,
+                                ),
+                                ft.Text(
+                                    value='Fullstack Developer & UI Designer',
+                                    size=18,
+                                    weight=ft.FontWeight.W_500,
+                                    color=ft.Colors.with_opacity(0.7, ft.Colors.WHITE),
+                                    italic=True,
+                                ),
                                 ft.Text(
                                     spans=[
                                         ft.TextSpan(text='<', style=ft.TextStyle(color=ft.Colors.PRIMARY)),
                                         ft.TextSpan(text='code', style=ft.TextStyle(color=ft.Colors.PRIMARY)),
                                         ft.TextSpan(text='>', style=ft.TextStyle(color=ft.Colors.PRIMARY)),
-
-                                        ft.TextSpan(text='Eu desenvolvo aplicativos iOS e Android, softwares para MacOS, Windows e Linux. Além de Websites Responsivos e Tratamento de Dados.',
-                                                    style=ft.TextStyle(size=16)),
-
+                                        ft.TextSpan(
+                                            text='Eu desenvolvo aplicativos iOS e Android, softwares para MacOS, Windows e Linux. Além de Websites Responsivos e Tratamento de Dados.',
+                                            style=ft.TextStyle(size=16),
+                                        ),
                                         ft.TextSpan(text='</', style=ft.TextStyle(color=ft.Colors.PRIMARY)),
                                         ft.TextSpan(text='code', style=ft.TextStyle(color=ft.Colors.PRIMARY)),
                                         ft.TextSpan(text='>', style=ft.TextStyle(color=ft.Colors.PRIMARY)),
-
+                                        ft.TextSpan(text=' |', style=ft.TextStyle(
+                                            color=ft.Colors.PRIMARY,
+                                            weight=ft.FontWeight.BOLD,
+                                            size=18,
+                                        )),
                                     ],
                                     theme_style=ft.TextThemeStyle.BODY_MEDIUM,
                                 ),
@@ -338,128 +436,47 @@ class MainContent(ft.Container):
                                     content=ft.Row(
                                         controls=[
                                             ft.Text(value='Explore agora', color=ft.Colors.BLACK, weight=ft.FontWeight.BOLD, size=16),
-                                            ft.Icon(name=ft.Icons.ARROW_FORWARD, color=ft.Colors.BLACK, size=20),
+                                            ft.Icon(name=ft.Icons.ARROW_FORWARD_ROUNDED, color=ft.Colors.BLACK, size=20),
                                         ],
                                         tight=True,
                                         spacing=10,
                                     ),
                                     url='#',
                                     style=ft.ButtonStyle(
-                                        shape=ft.RoundedRectangleBorder(radius=25),
-                                        padding=ft.padding.symmetric(horizontal=35, vertical=20),
+                                        shape=ft.RoundedRectangleBorder(radius=30),
+                                        padding=ft.padding.symmetric(horizontal=40, vertical=22),
                                         shadow_color=ft.Colors.PRIMARY,
-                                        elevation=8,
+                                        elevation=10,
                                     ),
                                 )
-
                             ],
                             spacing=30,
                             alignment=ft.MainAxisAlignment.CENTER,
                         )
                     ),
-
-                    # ft.Container(
-                    #     col={'md':12,'lg':4},
-                    #     content=ft.Image(
-                    #         # src='images/eu_port.png',
-                    #         width=15,
-                    #         # scale=ft.Scale(scale=1.8, alignment=ft.alignment.bottom_center)
-                    #     )
-                    # )
                 ]
             )
-
         )
 
-        # Configura experience
+        # --- Experience Stats ---
         experience = ft.Container(
             padding=ft.padding.symmetric(vertical=20),
             content=ft.ResponsiveRow(
                 columns=12,
+                spacing=20,
+                run_spacing=20,
                 controls=[
-                    ft.Text(
-                        col={'xs': 6, 'md': 3},
-                        spans=[
-                            ft.TextSpan(
-                            text='3 +',
-                            style=ft.TextStyle(
-                                color=ft.Colors.PRIMARY,
-                                weight=ft.FontWeight.W_900,
-                                size=20,
-                            )
-                        ),
-                            ft.TextSpan(
-                                text=' Anos de \nexperiência',
-                                style=ft.TextStyle(
-                                    size=16
-                                )
-                            )
-                        ]
-                    ),
-                    ft.Text(
-                        col={'xs': 6, 'md': 3},
-                        spans=[
-                            ft.TextSpan(
-                            text='100 +',
-                            style=ft.TextStyle(
-                                color=ft.Colors.PRIMARY,
-                                weight=ft.FontWeight.W_900,
-                                size=20,
-                            )
-                        ),
-                            ft.TextSpan(
-                                text=' Projetos \nconcluídos',
-                                style=ft.TextStyle(
-                                    size=16
-                                )
-                            )
-                        ]
-                    ),
-                    ft.Text(
-                        col={'xs': 6, 'md': 3},
-                        spans=[
-                            ft.TextSpan(
-                            text='200 +',
-                            style=ft.TextStyle(
-                                color=ft.Colors.PRIMARY,
-                                weight=ft.FontWeight.W_900,
-                                size=20,
-                            )
-                        ),
-                            ft.TextSpan(
-                                text=' Clientes \nsatisfeitos',
-                                style=ft.TextStyle(
-                                    size=16
-                                )
-                            )
-                        ]
-                    ),
-                    ft.Text(
-                        col={'xs': 6, 'md': 3},
-                        spans=[
-                            ft.TextSpan(
-                            text='5 +',
-                            style=ft.TextStyle(
-                                color=ft.Colors.PRIMARY,
-                                weight=ft.FontWeight.W_900,
-                                size=20,
-                            )
-                        ),
-                            ft.TextSpan(
-                                text=' Linguagens de \ndomínio',
-                                style=ft.TextStyle(
-                                    size=16
-                                )
-                            )
-                        ]
-                    ),
-                ]
-            )
+                    stat_card(ft.Icons.WORK_OUTLINE, "3+", "Anos de\nexperiência"),
+                    stat_card(ft.Icons.CODE, "100+", "Projetos\nconcluídos"),
+                    stat_card(ft.Icons.PEOPLE_OUTLINE, "200+", "Clientes\nsatisfeitos"),
+                    stat_card(ft.Icons.LANGUAGE, "5+", "Linguagens de\ndomínio"),
+                ],
+            ),
         )
 
-        # Configura projects
+        # --- Projects ---
         projects = ft.Container(
-            padding=ft.padding.symmetric(horizontal=20, vertical=20),  # Adiciona padding ao redor do ResponsiveRow
+            padding=ft.padding.symmetric(horizontal=20, vertical=20),
             content=ft.ResponsiveRow(
                 columns=12,
                 controls=[
@@ -467,37 +484,43 @@ class MainContent(ft.Container):
                         title='Site Lavanderia',
                         description='Site completo de uma lavanderia, com informações sobre o negócio, exposição de serviços e contato.',
                         url='https://allcleancb.netlify.app/',
-                        col={'xs':12, 'md': 6, 'lg': 4},
+                        index=1, category='Web',
+                        col={'xs': 12, 'md': 6, 'lg': 4},
                     ),
                     ProjectItem(
                         title='Sistema de Agendamento',
                         description='Sistema desenvolvido para fins de agendamento de serviços estéticos.',
                         url='https://github.com/MarceloPorfirio/Navigation_Flet/blob/main/agenda.py',
-                        col={'xs':12, 'md': 6, 'lg': 4},
+                        index=2, category='App',
+                        col={'xs': 12, 'md': 6, 'lg': 4},
                     ),
                     ProjectItem(
-                        title='Layout Clone Instagram',
-                        description='Layout desenvolvido com a poderosa framework do python, Flet - baseado em Flutter.',
-                        url='https://github.com/MarceloPorfirio/Clone_insta',
-                        col={'xs':12, 'md': 6, 'lg': 4},
+                        title='Sistema de Agendamento de Estética',
+                        description='Sistema completo de agendamento de serviços estéticos com gestão de horários e clientes.',
+                        url='https://studiojuliabrys.icoders.com.br',
+                        index=3, category='Web',
+                        col={'xs': 12, 'md': 6, 'lg': 4},
                     ),
                     ProjectItem(
                         title='DashBoard Supermarket',
                         description='Modelo de analise de dados detalhada de um dashboard fictício de supermercados.',
                         url='https://dashsupermarket-brm4ykhyagv7egfofsv7yr.streamlit.app/',
-                        col={'xs':12, 'md': 6, 'lg': 4},
+                        index=4, category='Data',
+                        col={'xs': 12, 'md': 6, 'lg': 4},
                     ),
                     ProjectItem(
-                        title='ToDo App',
-                        description='App completo para cadastro de tarefas, incluindo banco de dados.\n',
-                        url='https://github.com/MarceloPorfirio/Full_ToDo_App',
-                        col={'xs':12, 'md': 6, 'lg': 4},
+                        title='iCoders',
+                        description='Site institucional da iCoders, empresa de desenvolvimento de software e soluções digitais.',
+                        url='https://icoders.com.br',
+                        index=5, category='Web',
+                        col={'xs': 12, 'md': 6, 'lg': 4},
                     ),
                     ProjectItem(
                         title='Card Ecommerce',
                         description='Um card interativo para utilização em diversas páginas de web e desktop.\n',
                         url='https://github.com/MarceloPorfirio/Card_Ecommerce',
-                        col={'xs':12, 'md': 6, 'lg': 4},
+                        index=6, category='UI',
+                        col={'xs': 12, 'md': 6, 'lg': 4},
                     ),
                 ],
                 spacing=30,
@@ -505,80 +528,84 @@ class MainContent(ft.Container):
             ),
         )
 
-        # Configura prices
-        prices = ft.ResponsiveRow(
+        # --- Serviços ---
+        services = ft.ResponsiveRow(
             columns=12,
             spacing=30,
             run_spacing=30,
             controls=[
-                PriceItem(
-                    price=20,
-                    url='',
-                    items_included=[
-                        {'title': 'Prototipagem','is_included': True},
-                        {'title': 'Desenvolvimento Web','is_included': True},
-                        {'title': 'App multiplataforma','is_included': False},
-                        {'title': 'Manutenção Mensal','is_included': False},
-                    ],
+                ServiceItem(
+                    icon=ft.Icons.WEB,
+                    title='Desenvolvimento Web',
+                    description='Sites modernos, responsivos e otimizados para performance.',
+                    highlights=['Landing Pages', 'Sites Institucionais', 'E-commerce', 'SEO'],
                     col={'xs': 12, 'lg': 4},
                 ),
-                PriceItemPopular(
-                    price=100,
-                    url='',
-                    items_included=[
-                        {'title': 'Prototipagem','is_included': True},
-                        {'title': 'Desenvolvimento Web','is_included': True},
-                        {'title': 'App multiplataforma','is_included': True},
-                        {'title': 'Manutenção Mensal','is_included': False},
-                    ],
+                ServiceItem(
+                    icon=ft.Icons.PHONE_IPHONE,
+                    title='Apps Multiplataforma',
+                    description='Aplicativos nativos para iOS, Android, Windows, Mac e Linux.',
+                    highlights=['Flet / Flutter', 'UI Responsiva', 'APIs REST', 'Banco de Dados'],
                     col={'xs': 12, 'lg': 4},
                 ),
-                PriceItem(
-                    price=200,
-                    url='',
-                    items_included=[
-                        {'title': 'Prototipagem','is_included': True},
-                        {'title': 'Desenvolvimento Web','is_included': True},
-                        {'title': 'App multiplataforma','is_included': True},
-                        {'title': 'Manutenção Mensal','is_included': True},
-                    ],
+                ServiceItem(
+                    icon=ft.Icons.ANALYTICS,
+                    title='Análise de Dados',
+                    description='Dashboards interativos e tratamento de dados para decisões inteligentes.',
+                    highlights=['Python & Pandas', 'Dashboards', 'Automação', 'Relatórios'],
                     col={'xs': 12, 'lg': 4},
                 ),
             ]
-
         )
 
-        # Configura testimonials
-        testimonials = Carousel(
+        # --- Formação & Certificações ---
+        certifications = ft.ResponsiveRow(
+            columns=12,
+            spacing=20,
+            run_spacing=20,
             controls=[
-                TestimonialItem(
-                    user='Paula Rocha',
-                    job='Desenvolvedora Júnior',
-                    testimonial = 'O trabalho do Marcelo é realmente incrivel. Tudo ficou mais fácil e interativo.'
+                CertificationItem(
+                    icon=ft.Icons.SCHOOL,
+                    title='Análise e Desenvolvimento de Sistemas',
+                    institution='Uniritter',
+                    year='2021 - 2023',
+                    col={'xs': 12, 'md': 6},
                 ),
-                TestimonialItem(
-                    user='Vera Lúcia',
-                    job='Analista Contábil',
-                    testimonial = 'O trabalho do Marcelo é realmente incrivel. Tudo ficou mais fácil e interativo.',
-                    image_src = 'images/testimonial-1-280x280.jpg',
+                CertificationItem(
+                    title='Digital Transformation Technologies',
+                    institution='Dell Technologies',
+                    year='2022',
+                    url='https://www.unisinos.br/certificados/3088C4DEA2CC861835A0397B2CC44EF6A539C744',
+                    col={'xs': 12, 'md': 6},
                 ),
-                TestimonialItem(
-                    user='Vera Lúcia',
-                    job='Analista Contábil',
-                    testimonial = 'O trabalho do Marcelo é realmente incrivel. Tudo ficou mais fácil e interativo.',
-                    image_src = 'images/testimonial-1-280x280.jpg',
+                CertificationItem(
+                    title='Python Completo',
+                    institution='DevMedia',
+                    year='2023',
+                    col={'xs': 12, 'md': 6},
                 ),
-                TestimonialItem(
-                    user='Vera Lúcia',
-                    job='Analista Contábil',
-                    testimonial = 'O trabalho do Marcelo é realmente incrivel. Tudo ficou mais fácil e interativo.',
-                    image_src = 'images/testimonial-1-280x280.jpg',
+                CertificationItem(
+                    title='JavaScript Completo',
+                    institution='DevMedia',
+                    year='2023',
+                    col={'xs': 12, 'md': 6},
                 ),
-
-            ]
+                CertificationItem(
+                    title='Flet - Introdutório e Avançado',
+                    institution='Udemy',
+                    year='2024',
+                    col={'xs': 12, 'md': 6},
+                ),
+                CertificationItem(
+                    title='React e Firebase',
+                    institution='Udemy',
+                    year='2024',
+                    col={'xs': 12, 'md': 6},
+                ),
+            ],
         )
 
-        # Configura logos
+        # --- Logos ---
         logos = ft.Container(
             padding=ft.padding.all(30),
             opacity=0.6,
@@ -586,81 +613,97 @@ class MainContent(ft.Container):
                 controls=[
                     ft.Image(
                         src='images/brand-1-464x512.png',
-                        col={'xs': 6 , 'lg': 3 , 'xl':2}
+                        col={'xs': 6, 'lg': 3, 'xl': 2}
                     ),
                     ft.Image(
                         src='images/brand-2-458x512.png',
-                        col={'xs': 6 , 'lg': 3 , 'xl':2}
+                        col={'xs': 6, 'lg': 3, 'xl': 2}
                     ),
                     ft.Image(
                         src='images/brand-3-456x512.png',
-                        col={'xs': 6 , 'lg': 3 , 'xl':2}
+                        col={'xs': 6, 'lg': 3, 'xl': 2}
                     ),
                     ft.Image(
                         src='images/brand-1-464x512.png',
-                        col={'xs': 6 , 'lg': 3 , 'xl':2}
+                        col={'xs': 6, 'lg': 3, 'xl': 2}
                     ),
-
                 ],
                 spacing=30,
                 run_spacing=30,
             )
         )
 
-        # Configura footer
-        footer = ft.Container(
-            bgcolor='#2d2d3a',  # Cor customizada para substituir ON_SURFACE_VARIANT
-            padding=ft.padding.all(30),
-            content=ft.ResponsiveRow(
-                columns=12,
-                controls=[
-                    ft.Text(
-                        col={'xs': 12, 'md': 6},
-                        value='₢ 2024 Todos os direitos reservados.',
-                        theme_style=ft.TextThemeStyle.BODY_MEDIUM,
-
-                    ),
-                    ft.Text(
-                        col={'xs': 12, 'md': 6},
-                        spans=[
-                            ft.TextSpan(text='Email:'),
-                            ft.TextSpan(
-                                text='marcelobrys20@gmail.com',
-                                url='mailto:marcelobrys20@gmail.com',
-
-                            )
-                        ],
-                        theme_style=ft.TextThemeStyle.BODY_MEDIUM,
-                        text_align=ft.TextAlign.END
-                    ),
-
-                ]
-            )
-        )
-
-        # Função auxiliar para títulos de seções
-        def sections_title(title: str):
-            return ft.Container(
-                padding=ft.padding.symmetric(vertical=20),
-                content=ft.Text(value=title, theme_style=ft.TextThemeStyle.HEADLINE_MEDIUM)
-            )
-
-        # Configura o próprio container (MainContent)
-        self.content = ft.Column(
+        # --- Footer ---
+        self.scroll_column = ft.Column(
             scroll=ft.ScrollMode.HIDDEN,
             spacing=40,
             controls=[
                 banner,
                 experience,
-                sections_title(title='Projetos'),
+                section_header(title='Projetos', subtitle='Alguns dos meus trabalhos recentes'),
                 projects,
-                sections_title(title='Preços'),
-                prices,
-                sections_title(title='Recomendações'),
-                testimonials,
+                section_header(title='Serviços', subtitle='Soluções sob medida para o seu projeto'),
+                services,
+                section_header(title='Formação & Certificações', subtitle='Aprendizado contínuo e qualificação profissional'),
+                certifications,
                 logos,
-                footer
+                ft.Container(
+                    bgcolor=ft.Colors.with_opacity(0.5, ft.Colors.ON_SURFACE),
+                    padding=ft.padding.symmetric(vertical=30, horizontal=30),
+                    border=ft.border.only(
+                        top=ft.BorderSide(1, ft.Colors.with_opacity(0.15, ft.Colors.PRIMARY)),
+                    ),
+                    border_radius=ft.border_radius.only(top_left=20, top_right=20),
+                    content=ft.Column(
+                        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                        spacing=15,
+                        controls=[
+                            ft.Row(
+                                alignment=ft.MainAxisAlignment.CENTER,
+                                controls=[
+                                    ft.TextButton(
+                                        content=ft.Row(
+                                            controls=[
+                                                ft.Icon(name=ft.Icons.ARROW_UPWARD, size=16, color=ft.Colors.PRIMARY),
+                                                ft.Text(value="Voltar ao topo", color=ft.Colors.PRIMARY, size=13),
+                                            ],
+                                            tight=True,
+                                            spacing=5,
+                                        ),
+                                        on_click=lambda e: self.scroll_column.scroll_to(offset=0, duration=600),
+                                    ),
+                                ],
+                            ),
+                            ft.Divider(height=1, color=ft.Colors.with_opacity(0.1, ft.Colors.PRIMARY)),
+                            ft.ResponsiveRow(
+                                columns=12,
+                                controls=[
+                                    ft.Text(
+                                        col={'xs': 12, 'md': 6},
+                                        value='© 2025 Todos os direitos reservados.',
+                                        theme_style=ft.TextThemeStyle.BODY_MEDIUM,
+                                    ),
+                                    ft.Text(
+                                        col={'xs': 12, 'md': 6},
+                                        spans=[
+                                            ft.TextSpan(text='Email: '),
+                                            ft.TextSpan(
+                                                text='marcelobrys20@gmail.com',
+                                                url='mailto:marcelobrys20@gmail.com',
+                                                style=ft.TextStyle(color=ft.Colors.PRIMARY),
+                                            ),
+                                        ],
+                                        theme_style=ft.TextThemeStyle.BODY_MEDIUM,
+                                        text_align=ft.TextAlign.END,
+                                    ),
+                                ],
+                            ),
+                        ],
+                    ),
+                ),
             ]
         )
+
+        self.content = self.scroll_column
         self.bgcolor = ft.Colors.ON_SURFACE
         self.padding = ft.padding.all(30)

@@ -33,7 +33,7 @@ class AppTheme:
     }
 
     @staticmethod
-    def create_theme(primary_color=ft.Colors.AMBER, background_colors=('#20202a', '#2d2d3a', ft.Colors.WHITE)):
+    def create_theme(primary_color=ft.Colors.CYAN, background_colors=('#20202a', '#2d2d3a', ft.Colors.WHITE)):
         text_color = background_colors[2]  # Cor do texto baseada no fundo
         return ft.Theme(
             color_scheme=ft.ColorScheme(
@@ -85,7 +85,7 @@ class AppTheme:
 class App:
     def __init__(self, page:ft.Page):
         self.page = page
-        self.current_theme = 'Âmbar'
+        self.current_theme = 'Ciano'
         self.current_background = 'Escuro'
         self.page.theme = AppTheme.create_theme(
             AppTheme.THEMES[self.current_theme],
@@ -112,7 +112,9 @@ class App:
                     icon_color=ft.Colors.WHITE,
                     on_click=self.toggle_sidebar
                 ),
-                bgcolor=ft.Colors.ON_SURFACE
+                bgcolor=ft.Colors.with_opacity(0.9, ft.Colors.ON_SURFACE),
+                shadow_color=ft.Colors.with_opacity(0.3, ft.Colors.PRIMARY),
+                elevation=4,
             )
             self.layout.spacing = 0
             self.page.bgcolor = ft.Colors.ON_SURFACE
