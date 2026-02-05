@@ -207,8 +207,11 @@ class ServiceItem(ft.Container):
 
 class CertificationItem(ft.Container):
     def __init__(self, title: str, institution: str, year: str,
-                 icon: str = ft.Icons.WORKSPACE_PREMIUM, url: str = None, **kwargs):
+                 icon: str = None, url: str = None, **kwargs):
         super().__init__(**kwargs)
+
+        if icon is None:
+            icon = ft.Icons.WORKSPACE_PREMIUM
 
         self.bgcolor = ft.Colors.with_opacity(0.3, ft.Colors.ON_SURFACE)
         self.padding = ft.padding.all(25)

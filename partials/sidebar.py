@@ -1,5 +1,4 @@
 import flet as ft
-import os
 from components.skills import SkillRing, SkillProgressbar
 from components.styles import sidebar_section_label
 
@@ -194,7 +193,7 @@ class SidebarContent(ft.Container):
                     shadow_color=ft.Colors.PRIMARY,
                     elevation=8,
                 ),
-                on_click=self._open_cv
+                url='https://raw.githubusercontent.com/MarceloPorfirio/Portifolio_Flet/main/assets/Marcelo_Curriculo.pdf'
             ),
             alignment=ft.alignment.center,
             animate_scale=ft.Animation(200, ft.AnimationCurve.EASE_OUT),
@@ -227,13 +226,6 @@ class SidebarContent(ft.Container):
                 cv,
             ]
         )
-
-    def _open_cv(self, e):
-        pdf_path = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-            'assets', 'Marcelo_Curriculo.pdf'
-        )
-        os.startfile(pdf_path)
 
     def _cv_hover(self, e):
         if e.data == "true":
