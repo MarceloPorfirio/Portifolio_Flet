@@ -119,8 +119,8 @@ class SidebarContent(ft.Container):
         skills = ft.Column(
             controls=[
                 SkillProgressbar(title='PYTHON', value=1),
-                SkillProgressbar(title='NOSQL', value=0.8),
                 SkillProgressbar(title='SQL', value=0.9),
+                SkillProgressbar(title='NOSQL', value=0.8),
                 SkillProgressbar(title='JS', value=0.7),
                 SkillProgressbar(title='FLUTTER', value=0.7),
                 SkillProgressbar(title='PHP', value=0.6),
@@ -138,7 +138,7 @@ class SidebarContent(ft.Container):
                             ]),
                             ft.Row(controls=[
                                 ft.Icon(name=ft.Icons.CHECK, color=ft.Colors.PRIMARY),
-                                ft.Text(value='Tkinter', theme_style=ft.TextThemeStyle.BODY_MEDIUM),
+                                ft.Text(value='FastAPI', theme_style=ft.TextThemeStyle.BODY_MEDIUM),
                             ]),
                             ft.Row(controls=[
                                 ft.Icon(name=ft.Icons.CHECK, color=ft.Colors.PRIMARY),
@@ -147,6 +147,10 @@ class SidebarContent(ft.Container):
                             ft.Row(controls=[
                                 ft.Icon(name=ft.Icons.CHECK, color=ft.Colors.PRIMARY),
                                 ft.Text(value='Django', theme_style=ft.TextThemeStyle.BODY_MEDIUM),
+                            ]),
+                            ft.Row(controls=[
+                                ft.Icon(name=ft.Icons.CHECK, color=ft.Colors.PRIMARY),
+                                ft.Text(value='Docker', theme_style=ft.TextThemeStyle.BODY_MEDIUM),
                             ]),
                         ]
                     ),
@@ -166,7 +170,11 @@ class SidebarContent(ft.Container):
                             ]),
                             ft.Row(controls=[
                                 ft.Icon(name=ft.Icons.CHECK, color=ft.Colors.PRIMARY),
-                                ft.Text(value='FireBase', theme_style=ft.TextThemeStyle.BODY_MEDIUM),
+                                ft.Text(value='Firebase', theme_style=ft.TextThemeStyle.BODY_MEDIUM),
+                            ]),
+                            ft.Row(controls=[
+                                ft.Icon(name=ft.Icons.CHECK, color=ft.Colors.PRIMARY),
+                                ft.Text(value='Tkinter', theme_style=ft.TextThemeStyle.BODY_MEDIUM),
                             ]),
                         ]
                     ),
