@@ -141,6 +141,7 @@ class ServiceItem(ft.Container):
         )
         self.animate_scale = ft.Animation(200, ft.AnimationCurve.EASE_OUT)
         self.animate = ft.Animation(200, ft.AnimationCurve.EASE_OUT)
+        self.height = 380
 
         highlight_controls = []
         if highlights:
@@ -156,6 +157,7 @@ class ServiceItem(ft.Container):
                 )
 
         self.content = ft.Column(
+            expand=True,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             spacing=15,
             controls=[
@@ -179,6 +181,7 @@ class ServiceItem(ft.Container):
                     text_align=ft.TextAlign.CENTER,
                     color=ft.Colors.with_opacity(0.7, ft.Colors.WHITE),
                 ),
+                ft.Container(expand=True),
                 ft.Divider(height=10, color=ft.Colors.with_opacity(0.1, ft.Colors.PRIMARY)),
                 ft.Column(spacing=10, controls=highlight_controls),
             ]
