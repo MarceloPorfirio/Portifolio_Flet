@@ -169,33 +169,39 @@ class App:
         # Cria os botões de cor primária
         theme_buttons = []
         for theme_name, theme_color in AppTheme.THEMES.items():
+            is_selected = theme_name == self.current_theme
             theme_buttons.append(
                 ft.Container(
                     content=ft.Row(
                         controls=[
-                            ft.Icon(
-                                name=ft.Icons.CIRCLE,
-                                color=theme_color,
-                                size=30,
+                            ft.Container(
+                                width=28,
+                                height=28,
+                                bgcolor=theme_color,
+                                border_radius=14,
+                                border=ft.border.all(2, ft.Colors.WHITE24) if is_selected else None,
                             ),
                             ft.Text(
                                 value=theme_name,
-                                size=16,
-                                weight=ft.FontWeight.BOLD if theme_name == self.current_theme else ft.FontWeight.NORMAL,
+                                size=15,
+                                color=ft.Colors.WHITE,
+                                weight=ft.FontWeight.W_600 if is_selected else ft.FontWeight.NORMAL,
                             ),
                             ft.Icon(
                                 name=ft.Icons.CHECK_CIRCLE,
                                 color=theme_color,
-                                size=20,
-                            ) if theme_name == self.current_theme else ft.Container()
+                                size=18,
+                            ) if is_selected else ft.Container()
                         ],
                         alignment=ft.MainAxisAlignment.START,
+                        spacing=12,
                     ),
-                    padding=ft.padding.all(15),
+                    padding=ft.padding.symmetric(horizontal=12, vertical=10),
                     data=theme_name,
                     on_click=self.change_theme,
-                    bgcolor=ft.Colors.with_opacity(0.1, ft.Colors.WHITE) if theme_name == self.current_theme else None,
+                    bgcolor=ft.Colors.with_opacity(0.15, theme_color) if is_selected else ft.Colors.with_opacity(0.05, ft.Colors.WHITE),
                     border_radius=10,
+                    border=ft.border.all(1, ft.Colors.with_opacity(0.3, theme_color)) if is_selected else None,
                     ink=True,
                 )
             )
@@ -203,35 +209,39 @@ class App:
         # Cria os botões de fundo
         background_buttons = []
         for bg_name, bg_colors in AppTheme.BACKGROUNDS.items():
+            is_selected = bg_name == self.current_background
             background_buttons.append(
                 ft.Container(
                     content=ft.Row(
                         controls=[
                             ft.Container(
-                                width=30,
-                                height=30,
+                                width=28,
+                                height=28,
                                 bgcolor=bg_colors[0],
-                                border_radius=5,
+                                border_radius=6,
                                 border=ft.border.all(2, ft.Colors.WHITE24),
                             ),
                             ft.Text(
                                 value=bg_name,
-                                size=16,
-                                weight=ft.FontWeight.BOLD if bg_name == self.current_background else ft.FontWeight.NORMAL,
+                                size=15,
+                                color=ft.Colors.WHITE,
+                                weight=ft.FontWeight.W_600 if is_selected else ft.FontWeight.NORMAL,
                             ),
                             ft.Icon(
                                 name=ft.Icons.CHECK_CIRCLE,
                                 color=ft.Colors.PRIMARY,
-                                size=20,
-                            ) if bg_name == self.current_background else ft.Container()
+                                size=18,
+                            ) if is_selected else ft.Container()
                         ],
                         alignment=ft.MainAxisAlignment.START,
+                        spacing=12,
                     ),
-                    padding=ft.padding.all(15),
+                    padding=ft.padding.symmetric(horizontal=12, vertical=10),
                     data=bg_name,
                     on_click=self.change_background,
-                    bgcolor=ft.Colors.with_opacity(0.1, ft.Colors.WHITE) if bg_name == self.current_background else None,
+                    bgcolor=ft.Colors.with_opacity(0.15, ft.Colors.PRIMARY) if is_selected else ft.Colors.with_opacity(0.05, ft.Colors.WHITE),
                     border_radius=10,
+                    border=ft.border.all(1, ft.Colors.with_opacity(0.3, ft.Colors.PRIMARY)) if is_selected else None,
                     ink=True,
                 )
             )
@@ -240,44 +250,51 @@ class App:
         return ft.Container(
             content=ft.Column(
                 controls=[
-                    ft.Text(
-                        "Cor Primária",
-                        size=18,
-                        weight=ft.FontWeight.BOLD,
+                    ft.Row(
+                        controls=[
+                            ft.Icon(name=ft.Icons.PALETTE, color=ft.Colors.PRIMARY, size=20),
+                            ft.Text("Cor Primária", size=16, weight=ft.FontWeight.BOLD, color=ft.Colors.WHITE),
+                        ],
+                        spacing=10,
                     ),
-                    ft.Divider(height=10),
+                    ft.Container(height=8),
                     *theme_buttons,
-                    ft.Divider(height=30),
-                    ft.Text(
-                        "Cor de Fundo",
-                        size=18,
-                        weight=ft.FontWeight.BOLD,
+                    ft.Container(height=20),
+                    ft.Row(
+                        controls=[
+                            ft.Icon(name=ft.Icons.FORMAT_PAINT, color=ft.Colors.PRIMARY, size=20),
+                            ft.Text("Cor de Fundo", size=16, weight=ft.FontWeight.BOLD, color=ft.Colors.WHITE),
+                        ],
+                        spacing=10,
                     ),
-                    ft.Divider(height=10),
+                    ft.Container(height=8),
                     *background_buttons,
                 ],
                 tight=True,
                 scroll=ft.ScrollMode.AUTO,
+                spacing=6,
             ),
-            padding=ft.padding.all(20),
-            width=400,
+            padding=ft.padding.all(10),
+            width=350,
         )
 
     def create_settings_button(self):
         # Cria o diálogo de configurações
         self.settings_dialog = ft.AlertDialog(
-            title=ft.Text("Configurações de Tema", size=22, weight=ft.FontWeight.BOLD),
+            title=ft.Text("Configurações de Tema", size=22, weight=ft.FontWeight.BOLD, color=ft.Colors.WHITE),
             content=self.create_settings_content(),
             actions=[
                 ft.TextButton(
                     "Fechar",
                     on_click=self.close_settings,
                     style=ft.ButtonStyle(
+                        color=ft.Colors.PRIMARY,
                         shape=ft.RoundedRectangleBorder(radius=10),
                         padding=ft.padding.symmetric(horizontal=20, vertical=10),
                     ),
                 ),
             ],
+            bgcolor=ft.Colors.with_opacity(0.95, '#1a1a2e'),
             shape=ft.RoundedRectangleBorder(radius=15),
         )
 
