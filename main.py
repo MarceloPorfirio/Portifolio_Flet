@@ -94,6 +94,7 @@ class App:
         )
         self.page.on_resized = self.show_app_bar
         self.page.bgcolor = ft.Colors.BLACK
+        self.page.window_maximized = True
         self.main()
         self.show_app_bar()
         self.create_settings_button()
