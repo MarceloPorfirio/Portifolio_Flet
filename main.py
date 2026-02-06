@@ -2,6 +2,7 @@ import flet as ft
 from partials.sidebar import Sidebar
 from partials.content import MainContent
 import warnings
+import os
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 
@@ -323,4 +324,5 @@ class App:
         self.page.add(self.layout)
 
 if __name__ == '__main__':
-    ft.app(target=App, assets_dir='assets')
+    port = int(os.environ.get('PORT', 8550))
+    ft.app(target=App, assets_dir='assets', view=ft.AppView.WEB_BROWSER, port=port)
