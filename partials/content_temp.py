@@ -274,7 +274,7 @@ class MainContent(ft.Container):
                         col={'xs': 6, 'md': 3},
                         spans=[
                             ft.TextSpan(
-                            text='100 +',
+                            text='50 +',
                             style=ft.TextStyle(
                                 color=ft.Colors.PRIMARY,
                                 weight=ft.FontWeight.W_900,
