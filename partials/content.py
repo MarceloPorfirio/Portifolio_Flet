@@ -611,32 +611,56 @@ class MainContent(ft.Container):
             ],
         )
 
-        # --- Logos ---
-        logos = ft.Container(
-            padding=ft.padding.all(30),
-            opacity=0.6,
-            content=ft.ResponsiveRow(
+        # --- Tech Stack ---
+        def tech_badge(name: str, icon: str):
+            return ft.Container(
+                content=ft.Row(
+                    controls=[
+                        ft.Icon(name=icon, color=ft.Colors.PRIMARY, size=20),
+                        ft.Text(value=name, size=13, weight=ft.FontWeight.W_600),
+                    ],
+                    spacing=8,
+                    tight=True,
+                ),
+                padding=ft.padding.symmetric(horizontal=16, vertical=10),
+                bgcolor=ft.Colors.with_opacity(0.1, ft.Colors.PRIMARY),
+                border=ft.border.all(1, ft.Colors.with_opacity(0.2, ft.Colors.PRIMARY)),
+                border_radius=20,
+            )
+
+        tech_stack = ft.Container(
+            padding=ft.padding.symmetric(vertical=30),
+            content=ft.Column(
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                spacing=20,
                 controls=[
-                    ft.Image(
-                        src='images/brand-1-464x512.png',
-                        col={'xs': 6, 'lg': 3, 'xl': 2}
+                    ft.Text(
+                        value="TECH STACK",
+                        size=12,
+                        weight=ft.FontWeight.W_700,
+                        color=ft.Colors.with_opacity(0.5, ft.Colors.PRIMARY),
+                        letter_spacing=2,
                     ),
-                    ft.Image(
-                        src='images/brand-2-458x512.png',
-                        col={'xs': 6, 'lg': 3, 'xl': 2}
-                    ),
-                    ft.Image(
-                        src='images/brand-3-456x512.png',
-                        col={'xs': 6, 'lg': 3, 'xl': 2}
-                    ),
-                    ft.Image(
-                        src='images/brand-1-464x512.png',
-                        col={'xs': 6, 'lg': 3, 'xl': 2}
+                    ft.Row(
+                        alignment=ft.MainAxisAlignment.CENTER,
+                        wrap=True,
+                        spacing=12,
+                        run_spacing=12,
+                        controls=[
+                            tech_badge("Python", ft.Icons.CODE),
+                            tech_badge("Flutter", ft.Icons.PHONE_ANDROID),
+                            tech_badge("Flet", ft.Icons.WIDGETS),
+                            tech_badge("PostgreSQL", ft.Icons.STORAGE),
+                            tech_badge("MongoDB", ft.Icons.CLOUD),
+                            tech_badge("JavaScript", ft.Icons.JAVASCRIPT),
+                            tech_badge("React", ft.Icons.WEB),
+                            tech_badge("Git", ft.Icons.COMMIT),
+                            tech_badge("Docker", ft.Icons.INVENTORY_2),
+                            tech_badge("Streamlit", ft.Icons.DASHBOARD),
+                        ],
                     ),
                 ],
-                spacing=30,
-                run_spacing=30,
-            )
+            ),
         )
 
         # --- Footer ---
@@ -652,7 +676,7 @@ class MainContent(ft.Container):
                 services,
                 section_header(title='Formação & Certificações', subtitle='Aprendizado contínuo e qualificação profissional'),
                 certifications,
-                logos,
+                tech_stack,
                 ft.Container(
                     bgcolor=ft.Colors.with_opacity(0.5, ft.Colors.ON_SURFACE),
                     padding=ft.padding.symmetric(vertical=30, horizontal=30),
