@@ -635,11 +635,10 @@ class MainContent(ft.Container):
                 spacing=20,
                 controls=[
                     ft.Text(
-                        value="TECH STACK",
+                        value="T E C H   S T A C K",
                         size=12,
                         weight=ft.FontWeight.W_700,
                         color=ft.Colors.with_opacity(0.5, ft.Colors.PRIMARY),
-                        letter_spacing=2,
                     ),
                     ft.Row(
                         alignment=ft.MainAxisAlignment.CENTER,
