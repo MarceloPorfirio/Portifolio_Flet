@@ -472,9 +472,9 @@ class MainContent(ft.Container):
                 spacing=20,
                 run_spacing=20,
                 controls=[
-                    stat_card(ft.Icons.WORK_OUTLINE, "3+", "Anos de\nexperiência"),
-                    stat_card(ft.Icons.CODE, "100+", "Projetos\nconcluídos"),
-                    stat_card(ft.Icons.PEOPLE_OUTLINE, "200+", "Clientes\nsatisfeitos"),
+                    stat_card(ft.Icons.WORK_OUTLINE, "5+", "Anos de\nexperiência"),
+                    stat_card(ft.Icons.CODE, "50+", "Projetos\nconcluídos"),
+                    stat_card(ft.Icons.PEOPLE_OUTLINE, "100+", "Clientes\nsatisfeitos"),
                     stat_card(ft.Icons.LANGUAGE, "5+", "Linguagens de\ndomínio"),
                 ],
             ),
