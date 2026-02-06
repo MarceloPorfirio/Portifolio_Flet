@@ -141,7 +141,7 @@ class ServiceItem(ft.Container):
         )
         self.animate_scale = ft.Animation(200, ft.AnimationCurve.EASE_OUT)
         self.animate = ft.Animation(200, ft.AnimationCurve.EASE_OUT)
-        self.height = 380
+        self.height = 420
 
         highlight_controls = []
         if highlights:
@@ -650,7 +650,6 @@ class MainContent(ft.Container):
                             tech_badge("Flutter", ft.Icons.PHONE_ANDROID),
                             tech_badge("Flet", ft.Icons.WIDGETS),
                             tech_badge("PostgreSQL", ft.Icons.STORAGE),
-                            tech_badge("MongoDB", ft.Icons.CLOUD),
                             tech_badge("JavaScript", ft.Icons.JAVASCRIPT),
                             tech_badge("React", ft.Icons.WEB),
                             tech_badge("Git", ft.Icons.COMMIT),
