@@ -399,7 +399,7 @@ class MainContent(ft.Container):
                             controls=[
                                 ft.ShaderMask(
                                     content=ft.Text(
-                                        value='Descubra meu Incrível Portifólio',
+                                        value='Descubra meu\nIncrível Portfólio',
                                         theme_style=ft.TextThemeStyle.HEADLINE_LARGE,
                                         color=ft.Colors.WHITE,
                                     ),
